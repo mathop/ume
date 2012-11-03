@@ -56,5 +56,8 @@
 	//echo $this->Form->input('Contract.active');
 	echo $this->Form->input('Contract.active', array('type' => 'checkbox'));
 	echo $this->Form->end('Salvar contrato');
+	
+	echo $this->Html->link('Listar Pessoas', array('controller' => 'people', 'action' => 'index'));
+	
 
 ?>

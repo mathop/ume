@@ -80,26 +80,11 @@
 				$this->Person->id = $id;
 				$this->data = $this->Person->read();
 				
-			}
-			
-			
-			/*if ( $id == null ){
-			
-				$this->Session->setFlash('Ação não permitida - edit sem id');
-				$this->redirect(array('action' => 'index'));
-			
-			}*/
-			
-			
-			
+			}			
 		
 		}
+
 		
-		private function teste(){
-		
-			$this->set('var', Inflector::Camelize('person_type'));
-			
-		}
 		
 		public function view($id = null){
 		
