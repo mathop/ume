@@ -1,8 +1,5 @@
 <?php
 
-	$this->Html->script('quero_esse_js_soh_no_add_de_people', array('block' => 'script'));
-	$this->Html->script('js_muuuuuito_pesado', array('block' => 'script_bottom'));
-
 	echo $this->Form->create('Person', array('action' => 'add'));
 		
 		echo $this->Form->input('Person.name');
@@ -10,6 +7,10 @@
 		echo $this->Form->input('Person.mobile');
 		echo $this->Form->input('Person.customize_payment');
 		echo $this->Form->input('Person.email');
+		echo $this->Form->input('Person.cpf');
+		echo $this->Form->input('Person.rg');
+		echo $this->Form->input('Person.date_of_birth');
+		echo $this->Form->input('Person.observation');
 		echo $this->Form->input('Person.branch_id', array('options' => array($branches), 'empty' => 'Selecione a filial'));
 		
 		echo $this->Form->input('Address.street');
