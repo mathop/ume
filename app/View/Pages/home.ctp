@@ -20,5 +20,6 @@
  
 	echo '<p>' . $this->Html->link('Pessoas', array('controller' => 'people', 'action' => 'index')) . '</p>';
 	echo '<p>' . $this->Html->link('Filiais', array('controller' => 'branches', 'action' => 'index')) . '</p>';
+	echo '<p>' . $this->Html->link('Cidades', array('controller' => 'cities', 'action' => 'index')) . '</p>';
  
 ?>
