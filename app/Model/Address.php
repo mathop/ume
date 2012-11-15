@@ -6,6 +6,8 @@
 	
 		public $hasOne = array('Person');
 		
+		public $belongsTo = array('City');
+
 	
 	}
 

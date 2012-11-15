@@ -7,8 +7,6 @@
 		private function getBranches(){
 		
 			$branches = $this->Person->Branch->find('list');
-			//pr($branches);exit;s
-		
 			$this->set(compact('branches'));
 		}
 	
@@ -17,6 +15,17 @@
 			$person_types = $this->Person->PersonType->find('list');
 			$this->set(compact('person_types'));
 		
+		}
+
+		private function getCities(){
+
+			//pesquisando todas as cidades
+			$cities = $this->Person->Address->City->find('list');
+
+
+			//Retorna as cidades
+			$this->set(compact('cities'));
+
 		}
 	
 	
@@ -53,6 +62,9 @@
 			
 			}
 			self::getBranches();
+
+			//Pega o retorno do método e deixa disponível para a View
+			self::getCities();
 		
 		}
 		

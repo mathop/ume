@@ -3,6 +3,9 @@
 
 	class City extends AppModel{
 
+		public $hasMany = array('Address');
+
+
 		public $validate = array
 						  (
 						   	'name' => array

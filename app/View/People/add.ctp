@@ -17,7 +17,8 @@
 		echo $this->Form->input('Address.number');
 		echo $this->Form->input('Address.complement');
 		echo $this->Form->input('Address.neighborhood');
-		echo $this->Form->input('Address.city');
+		
+		echo $this->Form->input('Address.city_id', array('options' => array($cities), 'empty' => 'Selecione a cidade'));
 	
 	echo $this->Form->end('Cadastrar');
 	
