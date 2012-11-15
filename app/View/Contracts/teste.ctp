@@ -1,5 +1,5 @@
 ﻿<?php
 
-	debug($varTesting);
+	//debug($varTesting);
 
 ?>

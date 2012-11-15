@@ -29,8 +29,10 @@
 	</title>
 	<?php
 		echo $this->Html->meta('icon');
-
+		
 		echo $this->Html->css('cake.generic');
+		
+		echo $this->Html->script('jquery'); // <script type="text/javascript" src="/ume/js/jquery.js">
 
 		echo $this->fetch('meta');
 		echo $this->fetch('css');
@@ -57,6 +59,7 @@
 			?>
 		</div>
 	</div>
+	<?php echo $this->fetch('script_bottom') ?>
 	<?php echo $this->element('sql_dump'); ?>
 </body>
 </html>

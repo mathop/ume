@@ -85,6 +85,12 @@
 		}
 
 		
+		public function delete($id = null){
+		
+			set(compact($id));
+		
+		}
+		
 		
 		public function view($id = null){
 		

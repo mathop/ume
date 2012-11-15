@@ -1,1 +1,5 @@
-﻿<?php debug($result); ?>
+﻿<?php 
+
+	debug($result); 
+
+?>

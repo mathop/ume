@@ -2,8 +2,7 @@
 class ContractsController extends AppController {
 
 	private function index(){
-	
-	
+		//
 	}
 	
 	
@@ -29,11 +28,10 @@ class ContractsController extends AppController {
 	
 	}
 	
-	public function teste($id){
+	public function teste($id = null){
 	
 	
-		$this->Person->id = $id;
-		$this->set('varTesting', $this->Contract->read());
+		debug($this->Contract->consulta($id));	
 	
 	
 	}
@@ -45,38 +43,34 @@ class ContractsController extends AppController {
 	
 		$this->set('id', $id);
 		
-		$result2 = $this->Contract->find('count', array('conditions' => array('Contract.person_id' => $id, 'Contract.semester' => $this->request->data['Contract']['semester'], 'Contract.year' => $this->request->data['Contract']['year'])));
+		//$result2 = $this->Contract->find('count', array('conditions' => array('Contract.person_id' => $id, 'Contract.semester' => $this->request->data['Contract']['semester'], 'Contract.year' => $this->request->data['Contract']['year'])));
 	
-		if ( $result2 > 0){
+		//if ( $result2 > 0){
 			
-			$this->Contract->invalidate('year', 'Já existe um contrato para este ano e semestre.');
-			$this->Contract->invalidate('semester', 'Já existe um contrato para este ano e semestre.');
-		}
+			//$this->Contract->invalidate('year', 'Já existe um contrato para este ano e semestre.');
+			//$this->Contract->invalidate('semester', 'Já existe um contrato para este ano e semestre.');
+		//}
 					
-		$result = $this->Contract->find('count', array('conditions' => array('Contract.person_id' => $id, 'Contract.active' => true)));
+		//$result = $this->Contract->find('count', array('conditions' => array('Contract.person_id' => $id, 'Contract.active' => true)));
 				
 		//debug($result2);
 			
-		if ($result > 0 and $this->request->data['Contract']['active'] == '1'){
+		//if ($result > 0 and $this->request->data['Contract']['active'] == '1'){
 				
-			$this->Contract->invalidate('active', 'Só é permitido um contrato ativo por pessoa, esta pessoa já possui um contrato ativo.');
+			//$this->Contract->invalidate('active', 'Só é permitido um contrato ativo por pessoa, esta pessoa já possui um contrato ativo.');
 			//$this->Session->setFlash('teste');
 			//exit;
-		}
+		//}
 		
-		
-		
-		
-		/*
-		if ( !($result > 0 and $this->request->data['Contract']['active'] == '1') and result2 == 0  ){
+		//if ($this->request->is('post')){
 		
 			if ($this->Contract->save($this->request->data)){
 			
 				$this->Session->setFlash('Novo contrato cadastrado com sucesso', 'default', array('class' => 'success'), 'flash');
 				$this->redirect(array('action' => 'view', $id));
-			}
-				
-		}*/
+				}
+		//}
+		
 	}
 	
 	public function edit($id = null){

@@ -1,7 +1,10 @@
 <?php
 
-	echo $this->Form->create('Person', array('action' => 'add'));
+	$this->Html->script('quero_esse_js_soh_no_add_de_people', array('block' => 'script'));
+	$this->Html->script('js_muuuuuito_pesado', array('block' => 'script_bottom'));
 
+	echo $this->Form->create('Person', array('action' => 'add'));
+		
 		echo $this->Form->input('Person.name');
 		echo $this->Form->input('Person.phone');
 		echo $this->Form->input('Person.mobile');
