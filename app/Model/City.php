@@ -20,6 +20,12 @@
 						   	 	(
 						   	 		'rule' => 'isUnique',
 						   	 		'message' => 'Cidade já cadastrada.'
+						   	 	),
+
+						   	 	'rule3' => array
+						   	 	(
+						   	 		'rule' => array('minLength', '3'),
+						   	 		'message' => 'O cadastro só será efetivado se houver no mínimo 3 caracteres.'
 						   	 	)
 						   	 )
 					      );

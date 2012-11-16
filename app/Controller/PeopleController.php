@@ -108,7 +108,7 @@
 		
 		
 			$this->Person->id = $id;
-			$this->set('person' ,$this->Person->read());
+			$this->set('person', $this->Person->read());
 		
 		}
 		

@@ -16,7 +16,7 @@ class CitiesController extends AppController{
 
 				$this->Session->setFlash('Cidade cadastrada com sucesso!', 'default', array('class' => 'success'), 'flash');
 			
-			}else{
+			}else {
 
 				//Se não salvou avise !
 				$this->Session->setFlash('Não foi possível salvar!');

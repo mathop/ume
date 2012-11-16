@@ -37,6 +37,8 @@
 	echo '<br />';
 	echo '<br />';
 	echo $this->Html->Link('Adicionar uma nova pessoa', array('action' => 'add'));
+	echo '<p></p>';
+	echo '<p>' . $this->Html->link('Voltar', array('controller' => '')) . '</p>';
 
 	
 ?>

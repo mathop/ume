@@ -20,5 +20,9 @@
 	echo '</table>';
 	
 	echo $this->Html->link('Cadastrar uma nova filial', array('action' => 'add'));
+
+
+	echo '<p></p>';
+	echo '<p>' . $this->Html->link('Voltar', array('controller' => '')) . '</p>';
 	
 ?>
