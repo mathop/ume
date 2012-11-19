@@ -2,7 +2,9 @@
 
 	class Contract extends AppModel{
 	
-		public $belongsTo = array('Person');
+		public $belongsTo = array('Person', 'Course');
+
+		public $hasMany = array('Event');
 
 		//validaçao dos campos
 		public $validate = array
@@ -51,7 +53,7 @@
 																	)
 												)
 									   );
-				// se existir algum contrato ativo returna false,
+				// se existir algum contrato ativo retorna false,
 				if ( $pequisa > 0 ) {
 
 					//avisa o usuário do erro

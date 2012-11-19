@@ -3,6 +3,8 @@
 	class Course extends AppModel{
 
 
+		public $hasMany = array('Contract');
+
 		public $validate = array
 		(
 			'name' => array

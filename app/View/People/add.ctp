@@ -5,7 +5,7 @@
 		echo $this->Form->input('Person.name');
 		echo $this->Form->input('Person.phone');
 		echo $this->Form->input('Person.mobile');
-		echo $this->Form->input('Person.customize_payment');
+		echo $this->Form->input('Person.customize_payment', array('type' => 'text'));
 		echo $this->Form->input('Person.email');
 		echo $this->Form->input('Person.cpf');
 		echo $this->Form->input('Person.rg');
