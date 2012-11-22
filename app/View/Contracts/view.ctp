@@ -39,6 +39,11 @@
 		
 		echo '<tr><td><strong>Ações:</strong> ' . $this->Html->link('Editar', array('action' => 'edit', $result['id'])) .' | Excluir</td></tr>';
 		echo '</table>';
+
+		echo '<p>&nbsp</p>';
+		echo '<p>&nbsp</p>';
+		// echo '<p>&nbsp</p>';
+		// echo '<p>&nbsp</p>';
 	}
 
 	echo '<p>&nbsp;</p>';
@@ -53,7 +58,6 @@
 			echo $this->Form->input('Contract.date_of_execution', array('label' => 'Data de início do contrato: '));
 			echo $this->Form->input('Contract.date_of_closing', array('label' => 'Data de término do contrato: '));
 			echo $this->Form->input('Contract.date_rescinded', array('label' => 'Data da rescisão do contrato: '));
-			echo $this->Form->input('Contract.observation', array('label' => 'Observação: '));
 
 			echo $this->Form->input('Event.0.event_type_id', array('type' => 'hidden', 'value' => 1));
 			echo $this->Form->input('Event.0.point_id', array('label' => 'Embarque Ida:', 'options' => $points, 'empty' => 'Local >>'));
@@ -70,6 +74,8 @@
 			echo $this->Form->input('Contract.course_id', array('options' => $courses, 'empty' => 'Escolha um curso >>	', 'label' => 'Curso: '));
 
 			echo $this->Form->input('Contract.active', array('type' => 'checkbox', 'label' => 'Ativo'));
+
+			echo $this->Form->input('Contract.observation', array('label' => 'Observação: '));
 		
 	echo $this->Form->end('Salvar contrato');
 	

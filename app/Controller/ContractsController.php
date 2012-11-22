@@ -53,7 +53,12 @@ class ContractsController extends AppController {
 				$this->redirect(array('action' => 'view', $id));
 			}
 		}
-		
+
+		//Disponibiliza através da var points todos os Pontos
+		$this->set('points', $this->Contract->Event->Point->find('list'));
+
+		//Disponibiliza através da var courses todos os Cursos
+		$this->set('courses', $this->Contract->Course->find('list'));
 		
 	}
 	
@@ -78,5 +83,15 @@ class ContractsController extends AppController {
 			$this->request->data = $result;
 		
 		}
+
+		//Disponibilza o ID da Pessoa para popular o campo person_id
+		$this->set('id', $id);
+
+		//Disponibiliza através da var points todos os Pontos
+		$this->set('points', $this->Contract->Event->Point->find('list'));
+
+		//Disponibiliza através da var courses todos os Cursos
+		$this->set('courses', $this->Contract->Course->find('list'));
+
 	}
 }
