@@ -1,6 +1,7 @@
 <?php
 
-	class Contract extends AppModel{
+	class Contract extends AppModel
+	{
 	
 		public $belongsTo = array('Person', 'Course');
 
@@ -12,11 +13,23 @@
 			//ANO
 			'year' => array
 			(
-				'regra1' => array
+				'rule1' => array
 				(
 					'rule' => 'notEmpty',
 					'message' => 'Preenchimento obrigatório.'														
 				),
+
+				'rule2' => array
+				(
+					'rule' => 'checkOnCreate',
+					'on' => 'create'
+				),
+
+				'rule3' => array
+				(
+					'rule' => 'checkOnUpdate',
+					'on' => 'update'
+				)
 			),
 			
 			//SEMESTRE
@@ -80,27 +93,20 @@
 			),
 
 
+			// Data da rescisão, se estiver vazio okay, se não, deve ser no formato date dmy !!
 			'date_rescinded' => array
 			(
-				'rule1' => array
-				(
-					'rule' => 'checkOnCreate',
-					'on' => 'create',
-					'message' => 'Caiu aqui ! 1'
-				),
-				'rule2' => array
-				(
-					'rule' => 'notEmpty',
-					'on' => 'update',
-					'message' => 'Caiu aqui !'
-				)
+				'rule' => array('date', 'dmy'),
+				'allowEmpty' => true,
+				'message' => 'Digite uma data válida.'
 			)
+
 		);	
 
 		// Antes de criar
-		public function checkOnCreate($data)
+		public function checkOnCreate()
 		{
-			// Se o validador ao final deste método esta var continuar valendo 1 retorne TRUE, ou seja, valide !
+			// Se o validador ao final deste método continuar valendo 1 retorne TRUE, ou seja, valide !
 			$validador = 1;
 
 			// Se no formulário estiver marcado ativo
@@ -132,7 +138,7 @@
 			}
 
 
-			//verificando se existe ano e semestre cadastrado para o cubrid_client_encoding()
+			//verificando se existe ano e semestre cadastrado para o cliente
 			$resultado = $this->find('count', array
 			(
 				'conditions' => array
@@ -172,9 +178,53 @@
 			return true;
 		}
 
+		/*
+			public function validateYear($data)
+			{
+				$year = $data['year'];
 
-		public function beforeSave( ) { }	
-	
-	}
+				if (strlen($year) == 2)
+				{
+					$year += 2000;
+				}
 
+				if (!is_integer($year) or $year < 2000)
+				{
+					return false;
+				}
+			}
+
+		*/
+
+		public function checkOnUpdate()
+		{
+			// $pesquisa = $this->find('all');
+			
+			// debug($pesquisa);
+
+			return true;	
+		}
+
+
+		/*
+
+			public function beforeSave( ) {
+
+				if (isset($this->data['Contract']['date_of_execution']))
+				{
+					$dt = $this->data['Contract']['date_of_execution'];
+					$this->data['Contract']['date_of_execution'] = substr($dt, 0, 2).'-'.substr($dt, 3, 2).'-'.substr($dt, 6, 4);
+
+					 Exemplo view
+					 echo date('d/m', strtotime($this->data['Contract']['date_of_execution']));
+
+
+				}
+
+				return true;
+			}
+
+		*/	
+
+	}	
 ?>

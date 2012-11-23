@@ -5,7 +5,7 @@ class ContractsController extends AppController {
 	private function index( ) {	}
 	
 	
-	public function getContratos( $id = null )
+	private function getContratos( $id = null )
 	{
 		
 		// Diz que o model Person vai agir como "Containable", ou seja, ele vai realizar todos joins dos models associados.
@@ -22,7 +22,8 @@ class ContractsController extends AppController {
 	}
 	
 	
-	public function view( $id = null ){
+	public function view( $id = null )
+	{
 
 		//Disponibiliza a var contratos
 		self::getContratos($id = $id);
@@ -39,7 +40,8 @@ class ContractsController extends AppController {
 	}
 		
 	
-	public function add( $id = null ){
+	public function add( $id = null )
+	{
 	
 		//Disponibilza o ID da Pessoa para popular o campo person_id
 		$this->set('id', $id);
@@ -67,13 +69,21 @@ class ContractsController extends AppController {
 		$this->Contract->id = $id;
 		$result = $this->Contract->read();
 
+
+		
+
 		if ( $this->request->is('post')  )
 		{
-			if ($this->Contract->saveAll( $this->request->data ))
+			if ( $this->Contract->saveAll( $this->request->data ))
 			{
-				$this->Session->setFlash('Atualização realizada com sucesso!', 'default', array('class' => 'success'), 'flash');
-				$this->redirect(array('action' => 'view', $result['Contract']['person_id']));
-			} else
+				echo 'teste';
+				debug($this->request->data);
+				exit;
+				$this->Session->setFlash('TESTE');
+
+				// $this->Session->setFlash('Atualização realizada com sucesso!', 'default', array('class' => 'success'), 'flash');
+				// $this->redirect(array('action' => 'view', $result['Contract']['person_id']));
+			}else
 			{
 				$this->Session->setFlash('Não salvou!');	
 			}
