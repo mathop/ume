@@ -4,15 +4,22 @@
 	
 	echo $this->Form->create('Contract', array('action' => 'edit'));
 
-
 			echo $this->Form->input('Contract.id');
 			echo $this->Form->hidden('Contract.person_id');
 			echo $this->Form->input('Contract.bank_num', array('label' => 'Identificação no banco: '));
 			echo $this->Form->input('Contract.year', array('label' => 'Ano: '));
 			echo $this->Form->input('Contract.semester', array('label' => 'Semestre: '));
-			echo $this->Form->input('Contract.date_of_execution', array('label' => 'Data de início do contrato: '));
-			echo $this->Form->input('Contract.date_of_closing', array('label' => 'Data de término do contrato: '));
-			echo $this->Form->input('Contract.date_rescinded', array('label' => 'Data da rescisão do contrato: '));
+			echo $this->Form->input('Contract.date_of_execution', array('label' => 'Data de início do contrato: ', 'type' => 'text', 'value' => date('d/m/Y', strtotime($this->data['Contract']['date_of_execution'])) ));
+			echo $this->Form->input('Contract.date_of_closing', array('label' => 'Data de término do contrato: ', 'type' => 'text', 'value' => date('d/m/Y', strtotime($this->data['Contract']['date_of_closing'])) ));
+
+			if ( empty($this->data['Contract']['date_rescinded']) )
+			{
+				echo $this->Form->input('Contract.date_rescinded', array('label' => 'Data da rescisão do contrato: ', 'type' => 'text'));
+			}
+			else
+			{
+				echo $this->Form->input('Contract.date_rescinded', array('label' => 'Data da rescisão do contrato: ', 'type' => 'text', 'value' => date('d/m/Y', strtotime($this->data['Contract']['date_rescinded'])) ));
+			}
 			
 
 			echo $this->Form->input('Event.0.id');

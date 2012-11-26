@@ -17,7 +17,7 @@
 		// Se na variável data de recisão vier conteúdo, modifique-o
 		if (!empty($result['date_rescinded']))
 		{
-			date('d/m/Y', strtotime($result['date_rescinded']));
+			$result['date_rescinded'] = date('d/m/Y', strtotime($result['date_rescinded']));
 		}
 
 		echo '<table>';	
@@ -63,7 +63,7 @@
 			echo $this->Form->input('Contract.semester', array('label' => 'Semestre: '));
 			echo $this->Form->input('Contract.date_of_execution', array('label' => 'Data de início do contrato: ', 'type' => 'text'));
 			echo $this->Form->input('Contract.date_of_closing', array('label' => 'Data de término do contrato: ', 'type' => 'text'));
-			echo $this->Form->input('Contract.date_rescinded', array('label' => 'Data da rescisão do contrato: ', 'type' => 'text'));
+			// echo $this->Form->input('Contract.date_rescinded', array('label' => 'Data da rescisão do contrato: ', 'type' => 'text'));
 
 			echo $this->Form->input('Event.0.event_type_id', array('type' => 'hidden', 'value' => 1));
 			echo $this->Form->input('Event.0.point_id', array('label' => 'Embarque Ida:', 'options' => $points, 'empty' => 'Local >>'));
@@ -81,7 +81,7 @@
 
 			echo $this->Form->input('Contract.active', array('type' => 'checkbox', 'label' => 'Ativo'));
 
-			echo $this->Form->input('Contract.observation', array('label' => 'Observação: '));
+			echo $this->Form->input('Contract.observation', array('label' => 'Observações: ', 'rows' => '6'));
 		
 	echo $this->Form->end('Salvar contrato');
 	

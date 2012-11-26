@@ -41,8 +41,17 @@
 			//SEMESTRE
 			'semester' => array
 			(
-				'rule' => 'notEmpty',
-				'message' => 'Preenchimento obrigatório.'
+				'rule1' => array
+				(
+					'rule' => 'notEmpty',
+					'message' => 'Preenchimento obrigatório.'
+				),
+
+				'rule2' => array
+				(
+					'rule' => 'validateSemester',
+					'message' => 'Semestre inválido.'
+				)
 			),
 
 			//IDENTIFICAÇÃO DO BANCO
@@ -102,13 +111,21 @@
 			// Data da rescisão, se estiver vazio okay, se não, deve ser no formato date dmy !!
 			'date_rescinded' => array
 			(
-				'rule' => array('date', 'dmy'),
-				'allowEmpty' => true,
-				'message' => 'Digite uma data válida.'
+				'rule1' => array
+				(
+					'rule' => array('date', 'dmy'),
+					'allowEmpty' => true,
+					'message' => 'Digite uma data válida.'
+				),	
+
+				'rule2' => array
+				(
+					'rule' => 'teste'
+				)
 			)
 
 		);	
-
+		public function teste(){ return false;  }
 		// Antes de criar
 		public function checkOnCreate()
 		{
@@ -180,6 +197,18 @@
 			}
 		
 			//Se não retorne true !
+			return true;
+		}
+
+		public function validateSemester( $data )
+		{
+			$semester = $data['semester'];
+
+			if ( $semester != 1 and $semester != 2 )
+			{
+				return false;
+			}
+
 			return true;
 		}
 

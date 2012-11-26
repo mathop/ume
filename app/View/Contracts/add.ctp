@@ -10,10 +10,10 @@
 			echo $this->Form->input('Contract.bank_num', array('label' => 'Identificação no banco: '));
 			echo $this->Form->input('Contract.year', array('label' => 'Ano: '));
 			echo $this->Form->input('Contract.semester', array('label' => 'Semestre: '));
-			echo $this->Form->input('Contract.date_of_execution', array('label' => 'Data de início do contrato: '));
-			echo $this->Form->input('Contract.date_of_closing', array('label' => 'Data de término do contrato: '));
-			echo $this->Form->input('Contract.date_rescinded', array('label' => 'Data da rescisão do contrato: '));
-			
+			echo $this->Form->input('Contract.date_of_execution', array('label' => 'Data de início do contrato: ', 'type' => 'text'));
+			echo $this->Form->input('Contract.date_of_closing', array('label' => 'Data de término do contrato: ', 'type' => 'text'));
+			// echo $this->Form->input('Contract.date_rescinded', array('label' => 'Data da rescisão do contrato: ', 'type' => 'text'));
+
 			echo $this->Form->input('Event.0.event_type_id', array('type' => 'hidden', 'value' => 1));
 			echo $this->Form->input('Event.0.point_id', array('label' => 'Embarque Ida:', 'options' => $points, 'empty' => 'Local >>'));
 
@@ -26,12 +26,15 @@
 			echo $this->Form->input('Event.3.event_type_id', array('type' => 'hidden', 'value' => 4));
 			echo $this->Form->input('Event.3.point_id', array('label' => 'Desembarque Ida:', 'options' => $points, 'empty' => 'Local >>'));
 
-			echo $this->Form->input('Contract.course_id', array('options' => $courses, 'empty' => 'Escolha um curso >>	', 'label' => 'Curso: '));
+			echo $this->Form->input('Contract.course_id', array('options' => $courses, 'empty' => 'Curso >>	', 'label' => 'Curso: '));
 
 			echo $this->Form->input('Contract.active', array('type' => 'checkbox', 'label' => 'Ativo'));
 
-			echo $this->Form->input('Contract.observation', array('label' => 'Observação: '));
+			echo $this->Form->input('Contract.observation', array('label' => 'Observações: ', 'rows' => '6'));
 
 		
 	echo $this->Form->end('Salvar contrato');
+
+	echo $this->Html->link('Voltar', array('action' => 'view', $id));
+
 ?>
