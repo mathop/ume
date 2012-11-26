@@ -146,7 +146,6 @@
 					'Contract.year' => $this->data['Contract']['year'],
 					'Contract.person_id' => $this->data['Contract']['person_id'],
 					'Contract.semester' => $this->data['Contract']['semester'],
-					'Contract.id !=' => $this->data['Contract']['id']
 				),
 
 
@@ -168,7 +167,7 @@
 				$validador = 0;
 			}
 
-			// Se existem erros faça isso
+			// Se existem pare por aqui
 			if ( $validador == 0 )
 			{
 				return false;
@@ -198,33 +197,48 @@
 
 		public function checkOnUpdate()
 		{
-			// $pesquisa = $this->find('all');
-			
-			// debug($pesquisa);
-
 			return true;	
 		}
 
+		public function beforeSave( ) {
 
-		/*
+			// Se a variável for passada faça isso
+			if ( isset( $this->data['Contract']['date_of_execution'] ) )
+			{
+				// Utilizando uma var com nome menor
+				$dt = $this->data['Contract']['date_of_execution'];
 
-			public function beforeSave( ) {
-
-				if (isset($this->data['Contract']['date_of_execution']))
+				// Se passarem 31/12/12 converta para 31-12-2012
+				if ( strlen( $dt ) == 8 )
 				{
-					$dt = $this->data['Contract']['date_of_execution'];
-					$this->data['Contract']['date_of_execution'] = substr($dt, 0, 2).'-'.substr($dt, 3, 2).'-'.substr($dt, 6, 4);
-
-					 Exemplo view
-					 echo date('d/m', strtotime($this->data['Contract']['date_of_execution']));
-
-
+					$dt = substr($dt, 0,2) . '-' . substr($dt, 3,2) . '-20' . substr($dt, 6,2);
 				}
 
-				return true;
+				// Exemplo: Entrada -> 31-12-2012 ... Saída 2012-12-31
+				$this->data['Contract']['date_of_execution'] = substr($dt, 6, 4).'-'.substr($dt, 3, 2).'-'.substr($dt, 0, 2);
+
 			}
 
-		*/	
+			// Se a variável for passada faça isso
+			if ( isset( $this->data['Contract']['date_of_closing'] ) )
+			{
+				// Utilizando uma var com nome menor
+				$dt = $this->data['Contract']['date_of_closing'];
+
+				// Se passarem 31/12/12 converta para 31-12-2012
+				if ( strlen( $dt ) == 8 )
+				{
+					$dt = substr($dt, 0, 2) . '-' . substr($dt, 3, 2) . '-20' . substr($dt, 6, 2);
+				}
+
+				// Exemplo: Entrada -> 31-12-2012 ... Saída 2012-12-31
+				$this->data['Contract']['date_of_closing'] = substr($dt, 6, 4) . '-' . substr($dt, 3, 2) . '-' . substr($dt, 0, 2) ;
+
+			}
+
+
+			return true;
+		}
 
 	}	
 ?>
