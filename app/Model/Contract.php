@@ -29,6 +29,12 @@
 				(
 					'rule' => 'checkOnUpdate',
 					'on' => 'update'
+				),
+
+				'rule4' => array
+				(
+					'rule' => 'validateYear' /*,
+					'message' => 'Data inválida.'*/
 				)
 			),
 			
@@ -177,23 +183,41 @@
 			return true;
 		}
 
-		/*
-			public function validateYear($data)
+		// Validação do ANO
+		public function validateYear( $data )
+		{
+			// 1 = Válido
+			$validador = 1;
+
+			$year = (int) $data['year'];
+
+			if ( strlen($year) == 2 )
 			{
-				$year = $data['year'];
-
-				if (strlen($year) == 2)
-				{
-					$year += 2000;
-				}
-
-				if (!is_integer($year) or $year < 2000)
-				{
-					return false;
-				}
+				// Usuário digitou 12 retorne 2012
+				$year += 2000;
 			}
 
-		*/
+
+			if ( $year < 2000 )
+			{
+				// Mostrando o problema na tela !
+				$this->invalidate('year', 'São aceitos apenas anos maiores ou iguais a 2 mil.');
+				
+				// 0 = Inválido
+				$validador = 0;
+			}
+
+			// Inválido ?
+			if ( $validador == 0 )
+			{
+				return false;
+			}
+
+			return true;
+
+		}
+
+		
 
 		public function checkOnUpdate()
 		{
