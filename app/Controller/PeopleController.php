@@ -30,7 +30,7 @@
 	
 	
 		public function index(){
-			
+		
 			$this->paginate = array
 			(
 				'conditions' => $this->postConditions($this->data, $op = 'LIKE'),

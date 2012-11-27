@@ -2,7 +2,8 @@
 
 	echo $this->Form->create('Person');
 	echo $this->Form->input('Person.name');
-	echo $this->Form->end('Buscar');
+	echo $this->Form->input('Person.cpf');
+	echo $this->Form->end('Procurar');
 
 	echo '<h1>Listando Pessoas</h1>';
 
