@@ -7,10 +7,8 @@
 
 		public $hasMany = array('Event');
 
-		//validaçao dos campos
 		public $validate = array
 		(
-			//ANO
 			'year' => array
 			(
 				'rule1' => array
@@ -301,8 +299,6 @@
 					$this->data['Contract']['date_rescinded'] = substr($dt, 6, 4) . '-' . substr($dt, 3, 2) . '-' . substr($dt, 0, 2);
 				}
 
-				var_dump($this->data['Contract']);
-
 				if ( empty($this->data['Contract']['date_rescinded']) )
 				{
 					if ( !$this->data['Contract']['active'] )
@@ -317,6 +313,4 @@
 
 			return true;
 		}
-
-	}	
-?>
+	}
