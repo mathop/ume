@@ -22,7 +22,8 @@
 				'rule2' => array
 				(
 					'rule' => 'checkOnCreate',
-					'on' => 'create'
+					'on' => 'create',
+					'message' => 'Já existe cadastro para o ano e semestre informado.' // Mensagem igual ao do método !
 				),
 
 				'rule3' => array
@@ -91,14 +92,8 @@
 					'rule' => array('date', 'dmy'),
 					'message' => 'Digite uma data válida.'
 				)
-					
-			),
 
-			'date_rescinded' => array
-			(
-				'rule' => array('date', 'dmy'),
-				'message' => 'Digite uma data válida.',
-				'allowEmpty' => true
+					
 			),
 
 			'course_id' => array
@@ -125,7 +120,9 @@
 			)
 
 		);	
-		public function teste(){ return false;  }
+		public function teste( ){ 
+
+			return true;  }
 		// Antes de criar
 		public function checkOnCreate()
 		{
@@ -183,8 +180,8 @@
 			if ( $resultado > 0 )
 			{
 				//Avisando o usuário sobre os erros
-				$this->invalidate('year', 'Já existe cadastro para o ano e semestre informado.');
-				$this->invalidate('semester', 'Já existe cadastro para o ano e semestre informado.');
+				//$this->invalidate('year', 'Já existe cadastro para o ano e semestre informado.');
+				$this->invalidate('semester', 'Já existe cadastro para o ano e semestre informado.'); //igual ao rule2
 				
 				//Existe erro
 				$validador = 0;
@@ -241,16 +238,15 @@
 			{
 				return false;
 			}
-
+			
 			return true;
-
 		}
 
 		
 
 		public function checkOnUpdate()
 		{
-			return true;	
+			return true;
 		}
 
 		public function beforeSave( ) {
@@ -289,6 +285,35 @@
 
 			}
 
+			// Se a variável for passada faça isso
+			if ( isset($this->data['Contract']['date_rescinded']) )
+			{
+				// Utilizando uma var com nome menor
+				$dt = $this->data['Contract']['date_rescinded'];
+				
+				if ( strlen($dt) == 8 )
+				{	// Se passarem 31/12/12 converta para 31-12-2012
+					$dt = substr($dt, 0,2) . '-' . substr($dt, 3, 2) . '-20' . substr($dt, 6,4);
+				}
+				// Exemplo: Entrada -> 31-12-2012 ... Saída 2012-12-31
+				if ( strlen($dt) == 10 )
+				{
+					$this->data['Contract']['date_rescinded'] = substr($dt, 6, 4) . '-' . substr($dt, 3, 2) . '-' . substr($dt, 0, 2);
+				}
+
+				var_dump($this->data['Contract']);
+
+				if ( empty($this->data['Contract']['date_rescinded']) )
+				{
+					if ( !$this->data['Contract']['active'] )
+					{
+						$this->invalidate('active', 'Contrato inativo, por favor insira a data da rescisão.');
+
+						return false;
+					}
+				}
+
+			}
 
 			return true;
 		}
