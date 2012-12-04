@@ -195,7 +195,7 @@
 					return false;	
 				}
 
-				$this->data['Contract']['date_of_birth'] = substr($dtNascimento, 6, 4) . '-' . substr($dtNascimento, 3, 2) . '-' . substr($dtNascimento, 0, 2);
+				$this->data['Person']['date_of_birth'] = substr($dtNascimento, 6, 4) . '-' . substr($dtNascimento, 3, 2) . '-' . substr($dtNascimento, 0, 2);
 
 			}
 

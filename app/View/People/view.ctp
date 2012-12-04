@@ -1,26 +1,26 @@
 ﻿<?php
-
-	debug($person);
 	
+	debug($this->data);
+
 	echo '<table>';
 	
-	echo '<tr><td>ID: ' . $person['Person']['id'] . '</td></tr>';
-	echo '<tr><td>Name: ' . $person['Person']['name'] . '</td></tr>';
-	echo '<tr><td>Phone: ' . $person['Person']['phone'] . '</td></tr>';
-	echo '<tr><td>Mobile: ' . $person['Person']['mobile'] . '</td></tr>';
-	echo '<tr><td>Email: ' . $person['Person']['email'] . '';
-	echo '<tr><td>Cpf: ' . $person['Person']['cpf'] . '';
-	echo '<tr><td>Date of birth: ' . $person['Person']['date_of_birth'] . '';
-	echo '<tr><td>Observation: ' . $person['Person']['observation'] . '';
-	echo '<tr><td>Customize Payment: ' . $person['Person']['customize_payment'] . '</td></tr>';
-	
-	echo '<tr><td>Street: ' . $person['Address']['street'] . '</td></tr>';
-	echo '<tr><td>Number: ' . $person['Address']['complement'] . '</td></tr>';
-	echo '<tr><td>Neighborhood: ' . $person['Address']['neighborhood'] . '</td></tr>';
-	echo '<tr><td>Person Type: ' . $person['PersonType']['name'] . '</td></tr>';
-	echo '<tr><td>Branch: ' . $person['Branch']['name'] . '</td></tr>';
-	echo '<tr><td>City: ' . $person['Address']['city'] . '</td></tr>';
-	
+		echo '<tr><td><strong>id:</strong> ' . $person['Person']['id'] . '</td></tr>';
+		echo '<tr><td><strong>Nome:</strong> ' . $person['Person']['name'] . '</td></tr>';
+		echo '<tr><td><strong>Telefone:</strong> ' . $person['Person']['phone'] . '</td></tr>';
+		echo '<tr><td><strong>Celular:</strong> ' . $person['Person']['mobile'] . '</td></tr>';
+		echo '<tr><td><strong>Email:</strong> ' . $person['Person']['email'] . '';
+		echo '<tr><td><strong>CPF:</strong> ' . $person['Person']['cpf'] . '';
+		echo '<tr><td><strong>RG:</strong> ' . $person['Person']['rg'] . '';
+		echo '<tr><td><strong>Data de nascimento:</strong> ' . date('d/m/Y', strtotime($person['Person']['date_of_birth'])) . '';
+		echo '<tr><td><strong>Observações:</strong> ' . $person['Person']['observation'] . '';
+		echo '<tr><td><strong>Rua:</strong> ' . $person['Address']['street'] . '</td></tr>';
+		echo '<tr><td><strong>Número:</strong> ' . $person['Address']['number'] . '</td></tr>';
+		echo '<tr><td><strong>Complemento:</strong> ' . $person['Address']['complement'] . '</td></tr>';
+		echo '<tr><td><strong>Bairro:</strong> ' . $person['Address']['neighborhood'] . '</td></tr>';
+		echo '<tr><td><strong>Cidade:</strong> ' . $person['Address']['City']['name'] . '</td></tr>';
+		echo '<tr><td><strong>Filiado em:</strong> ' . $person['Branch']['name'] . '</td></tr>';
+		echo '<tr><td><strong>Tipo de Pessoa:</strong> ' . $person['PersonType']['name'] . '</td></tr>';
+
 	
 	echo '</table>';
 	

@@ -1,36 +1,25 @@
 ﻿<?php
 
-	class PeopleController extends AppController{
-	
-		
-		
-		private function getBranches(){
-		
-			$branches = $this->Person->Branch->find('list');
-			$this->set(compact('branches'));
+	class PeopleController extends AppController
+	{
+
+		private function getBranches()
+		{		
+			$this->set('branches', $this->Person->Branch->find('list'));
 		}
 	
-		private function getPersonTypes(){
-		
-			$person_types = $this->Person->PersonType->find('list');
-			$this->set(compact('person_types'));
-		
+		private function getPersonTypes()
+		{		
+			$this->set('person_types', $this->Person->PersonType->find('list'));
 		}
 
-		private function getCities(){
-
-			//pesquisando todas as cidades
-			$cities = $this->Person->Address->City->find('list');
-
-
-			//Retorna as cidades
-			$this->set(compact('cities'));
-
+		private function getCities()
+		{			
+			$this->set('cities', $this->Person->Address->City->find('list'));
 		}
 	
-	
-		public function index(){
-		
+		public function index()
+		{		
 			$this->paginate = array
 			(
 				'conditions' => $this->postConditions($this->data, $op = 'LIKE'),
@@ -40,40 +29,32 @@
 			$people = $this->paginate('Person');
 		
 			$this->set(compact('people'));
-		
 		}
 		
-		public function add(){
-		
-			if ( $this->request->is('post') ){
-			
+		public function add()
+		{		
+			if ( $this->request->is('post') )
+			{
 				$this->request->data('Person.person_type_id', 1);
-				
-				//debug($this->request->data);
-				//exit;
-				
-				
-				if ( $this->Person->saveAll($this->request->data) ){
-				
-					$this->Session->setFlash('Salvou', 'default', array('class' => 'success'), 'flash');
+								
+				if ( $this->Person->saveAll($this->request->data) )
+				{				
+					$this->Session->setFlash('Cadastro realizado com sucesso!', 'default', array('class' => 'success'), 'flash');
 					$this->redirect(array('action' => 'index'));
-				
 				}
-			
 			}
-			self::getBranches();
 
-			//Pega o retorno do método e deixa disponível para a View
-			self::getCities();
-		
+			self::getBranches();
+			self::getCities();		
 		}
 		
 			
-		public function edit($id = null)
+		public function edit( $id = null )
 		{		
 
 			self::getBranches();
 			self::getPersonTypes();
+			self::getCities();
 		
 			if ( $this->request->is('post') )
 			{
@@ -83,34 +64,59 @@
 					$this->Session->setFlash('Alteração realizada com sucesso!', 'default', array('class' => 'success'), 'flash');
 					$this->redirect(array('action' => 'index'));				
 				}
-			
 			}
 			else
 			{		
-				
-		
-				$this->Person->id = $id;
-				$this->data = $this->Person->read();
-				
+				$this->Person->Behaviors->attach('Containable');
+				$this->Person->contain
+				(
+					array
+					(
+						'Branch',
+						'PersonType',
+						'Address' => array
+						(
+							'City'
+						)
+					)
+				);
+
+				$this->data = $this->Person->read(null, $id);
 			}			
-		
 		}
 
 		
-		public function delete($id = null){
-		
-			set(compact($id));
-		
+		public function delete( $id = null )
+		{
+			if ( $this->request->is('get') ) 
+			{
+				throw new MethodNotAllowedException();
+			}
+
+			if ( $this->Person->deleteAll(array('Person.id' => $id), true) )
+			{
+				$this->Session->setFlash('Deleção realizada com sucesso', 'default', array('class' => 'success', 'flash'));
+				$this->referer();
+			}
+		}		
+			
+		public function view( $id = null )
+		{
+			$this->Person->Behaviors->attach('Containable');
+
+			$this->Person->contain
+			(
+				array
+				(
+					'Address' => array
+					(
+						'City'
+					),
+					'Branch',
+					'PersonType'
+				)
+			);
+
+			$this->set('person', $this->Person->read(null, $id));
 		}
-		
-		
-		public function view($id = null){
-		
-		
-			$this->Person->id = $id;
-			$this->set('person', $this->Person->read());
-		
-		}
-		
-		
 	}

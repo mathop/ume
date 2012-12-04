@@ -1,36 +1,31 @@
 <?php
 
-class CoursesController extends AppController{
+	class CoursesController extends AppController{
 
-	public function index(){}
-
-	public function add() {
-
-		//É POST?
-		if ( $this->request->is('post') ) {
-
-			//SALVOU ?
-			if ( $this->Course->save( $this->request->data ) ) {
-
-				//SE SALVOU EXIBE ISSO
-				echo $this->Session->setFlash('Cadastro realizado com sucesso.', 'default', array('class' => 'success'), 'flash');
-			}else {
-
-				//SE NÃO SALVOU EXIBE ISSO
-				echo $this->Session->setFlash('Cadastro não realizado.');
-			}
-
+		public function index()
+		{
+			
 		}
 
+		public function add() {
+
+			if ( $this->request->is('post') ) 
+			{
+				if ( $this->Course->save( $this->request->data ) ) 
+				{
+					echo $this->Session->setFlash('Cadastro realizado com sucesso.', 'default', array('class' => 'success'), 'flash');
+
+					$this->data = array();
+				}
+				else
+				{
+					echo $this->Session->setFlash('Cadastro não realizado.');
+				}
+			}
+		}
+
+		public function view()
+		{
+			$this->set('resultado', $this->Course->find('all'));
+		}
 	}
-
-	public function view() {
-
-		//trás para a variável todos os cursos
-		$resultado = $this->Course->find('all');
-
-		//disponibiliza o conteudo da variavel para a view
-		$this->set(compact('resultado'));
-	}
-
-}
