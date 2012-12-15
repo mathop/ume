@@ -1,7 +1,5 @@
-﻿<?php
+<?php
 	
-	debug($this->data);
-
 	echo '<table>';
 	
 		echo '<tr><td><strong>id:</strong> ' . $person['Person']['id'] . '</td></tr>';

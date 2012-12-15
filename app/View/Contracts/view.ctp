@@ -28,6 +28,7 @@
 		echo '<tr><td><strong>Fim:</strong> ' . date('d/m/Y', strtotime($result['date_of_closing'])) . '</tr></td>';
 		echo '<tr><td><strong>Rescisão:</strong> ' . $result['date_rescinded'] . '</tr></td>';
 		echo '<tr><td><strong>Curso</strong>: ' . $result['Course']['name'] . ' </tr></td>';
+		echo '<tr><td><strong>Período</strong>: ' . $result['Period']['name'] . ' </tr></td>';
 		echo '<tr><td><strong>Embarque Ida:</strong> ' . $result['Event'][0]['Point']['name'] . '</tr></td>';
 		echo '<tr><td><strong>Desembarque Ida: </strong>' . $result['Event'][1]['Point']['name'] . '</tr></td>';
 		echo '<tr><td><strong>Embarque Volta: </strong>' . $result['Event'][2]['Point']['name'] . '</tr></td>';
@@ -78,6 +79,7 @@
 			echo $this->Form->input('Event.3.point_id', array('label' => 'Desembarque Ida:', 'options' => $points, 'empty' => 'Local >>'));
 
 			echo $this->Form->input('Contract.course_id', array('options' => $courses, 'empty' => 'Curso >>	', 'label' => 'Curso: '));
+			echo $this->Form->input('Contract.period_id', array('options' => $periods, 'empty' => 'Período >> ', 'label' => 'Período: '));
 
 			echo $this->Form->input('Contract.active', array('type' => 'checkbox', 'label' => 'Ativo'));
 

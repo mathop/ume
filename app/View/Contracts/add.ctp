@@ -27,6 +27,7 @@
 			echo $this->Form->input('Event.3.point_id', array('label' => 'Desembarque Ida:', 'options' => $points, 'empty' => 'Local >>'));
 
 			echo $this->Form->input('Contract.course_id', array('options' => $courses, 'empty' => 'Curso >>	', 'label' => 'Curso: '));
+			echo $this->Form->input('Contract.period_id', array('options' => $periods, 'empty' => 'Período >> ', 'label' => 'Período: '));
 
 			echo $this->Form->input('Contract.active', array('type' => 'checkbox', 'label' => 'Ativo'));
 

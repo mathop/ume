@@ -1,22 +1,7 @@
-﻿<?php
+<?php
 
 	class PeopleController extends AppController
 	{
-
-		private function getBranches()
-		{		
-			$this->set('branches', $this->Person->Branch->find('list'));
-		}
-	
-		private function getPersonTypes()
-		{		
-			$this->set('person_types', $this->Person->PersonType->find('list'));
-		}
-
-		private function getCities()
-		{			
-			$this->set('cities', $this->Person->Address->City->find('list'));
-		}
 	
 		public function index()
 		{		
@@ -47,7 +32,7 @@
 			self::getBranches();
 			self::getCities();		
 		}
-		
+
 			
 		public function edit( $id = null )
 		{		
@@ -119,4 +104,20 @@
 
 			$this->set('person', $this->Person->read(null, $id));
 		}
+
+		private function getBranches()
+		{		
+			$this->set('branches', $this->Person->Branch->find('list'));
+		}
+	
+		private function getPersonTypes()
+		{		
+			$this->set('person_types', $this->Person->PersonType->find('list'));
+		}
+
+		private function getCities()
+		{			
+			$this->set('cities', $this->Person->Address->City->find('list'));
+		}
+
 	}

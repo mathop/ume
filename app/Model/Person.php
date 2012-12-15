@@ -4,7 +4,13 @@
 		
 		public $belongsTo = array('Branch', 'PersonType');
 		
-		public $hasOne = array('Address');
+		public $hasOne = array
+		(
+			'Address' => array
+			(
+				'dependent' => true
+			)
+		);
 		
 		public $hasMany = array('Contract');
 		

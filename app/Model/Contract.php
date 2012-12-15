@@ -3,12 +3,13 @@
 	class Contract extends AppModel
 	{
 	
-		public $belongsTo = array('Person', 'Course');
+		public $belongsTo = array('Person', 'Course', 'Period');
 
 		public $hasMany = array('Event');
 
 		public $validate = array
-		(
+		(			
+
 			'year' => array
 			(
 				'rule1' => array
@@ -21,13 +22,14 @@
 				(
 					'rule' => 'checkOnCreate',
 					'on' => 'create',
-					'message' => 'Já existe cadastro para o ano e semestre informado.' // Mensagem igual ao do método !
+					'message' => 'Erro, verifique todo o formulário' // Mensagem igual ao do método !
 				),
 
 				'rule3' => array
 				(
 					'rule' => 'checkOnUpdate',
-					'on' => 'update'
+					'on' => 'update',
+					'message' => 'TESTE'
 				),
 
 				'rule4' => array
@@ -36,7 +38,7 @@
 					'message' => 'Data inválida.'*/
 				)
 			),
-			
+
 			//SEMESTRE
 			'semester' => array
 			(
@@ -109,23 +111,49 @@
 					'rule' => array('date', 'dmy'),
 					'allowEmpty' => true,
 					'message' => 'Digite uma data válida.'
-				),	
-
-				'rule2' => array
-				(
-					'rule' => 'teste'
 				)
-			)
+			),
 
+			'period_id' => array
+			(
+				'rule' => 'notEmpty',
+				'message' => 'Escolha um período.'
+			),
 		);	
-		public function teste( ){ 
+	
+		public function beforeValidate()
+		{
+			
+			// if ( isset($this->data['Contract']['date_of_closing']) or isset($this->data['Contract']['date_of_execution']) )
+			// {
+			// 	$contractDateOfClosing = $this->data['Contract']['date_of_closing'];
+			// 	$contractDateOfExecution = $this->data['Contract']['date_of_execution'];
 
-			return true;  }
+			// 	// Bloco responsável por trocar barras por hífens
+			// 	if ( strlen($contractDateOfExecution) == 8 or strlen($contractDateOfExecution) == 10 )
+			// 	{
+			// 		$this->data['Contract']['date_of_execution'] = str_replace('/', '-', $contractDateOfExecution);
+			// 	}
+				
+			// 	// Bloco responsável por trocar barras por hífens
+			// 	if ( strlen($contractDateOfClosing) == 8 or strlen($contractDateOfClosing) )
+			// 	{
+			// 		$this->data['Contract']['date_of_closing'] = str_replace('/', '-', $contractDateOfClosing);
+					
+			// 	}
+				
+
+			// }
+
+			return true;
+		}
+
 		// Antes de criar
 		public function checkOnCreate()
 		{
 			// Se o validador ao final deste método continuar valendo 1 retorne TRUE, ou seja, valide !
 			$validador = 1;
+
 
 			// Se no formulário estiver marcado ativo
 			if ( $this->data['Contract']['active'] == 1 )
@@ -145,7 +173,6 @@
 				// Se existir algum contrato ativo retorna false,
 				if ( $pequisa > 0 )
 				{
-
 					// Avisa o usuário do erro
 					$this->invalidate('active', 'Já existem contratos ativos deste cliente.');
 					
@@ -190,7 +217,8 @@
 			{
 				return false;
 			}
-		
+
+
 			//Se não retorne true !
 			return true;
 		}
@@ -243,12 +271,73 @@
 		
 
 		public function checkOnUpdate()
-		{
+		{	
+
+			// pega os dados do checkbox do form
+			
+			$selecaoActive = $this->data['Contract']['active'];
+
+			debug($this->data);
+
+			// pesquisa o contrato
+			$pesquisa = $this->read(null, $this->data['Contract']['id']);
+
+			debug($this->data);
+
+			// pega a flag do contrato pesquisado
+			$bancoActive = $pesquisa['Contract']['active'];
+
+			// debug($pesquisa['Contract']['active']);
+			// debug($selecaoActive);
+
+			// // se o usuario selecionou o checkbox faça
+			// if ( $selecaoActive )
+			// {
+			// 	// exit;
+
+			// 	// Se o que o usuário ativou o checkbox e no banco está inativo, ou se são diferentes, faça
+			// 	if ( $selecaoActive != $bancoActive )
+			// 	{
+
+			// 		exit;
+
+			// 		$argumento2 = array
+			// 		(
+			// 			'conditions' => array
+			// 			(
+			// 				'Contract.person_id' => $this->data['Contract']['person_id'],
+			// 				'Contract.active' => '1'
+			// 			),
+
+			// 			'fields' => array
+			// 			(
+			// 				'Contract.person_id', 
+			// 				'Contract.active'
+			// 			)
+			// 		);
+
+
+
+			// 		// Conte quantos registros existem ativos da pessoa em questão !
+			// 		$pesquisa = $this->find('count', $argumento2);
+
+			// 		debug($pesquisa);
+
+
+			// 		// Se for diferente de zero é pq existem contratos, ou seja, pare por ai...
+			// 		if ($pesquisa != 0)
+			// 		{
+			// 			$this->invalidate('active', 'É permitido no máximo um contrato ativo por pessoa, e esse cliente já possui um cadastro ativo.');
+			// 			return false;
+			// 		}
+			// 	}
+			// }
+
 			return true;
 		}
 
-		public function beforeSave( ) {
-
+		public function beforeSave( ) 
+		{
 			// Se a variável for passada faça isso
 			if ( isset( $this->data['Contract']['date_of_execution'] ) )
 			{
@@ -308,9 +397,7 @@
 						return false;
 					}
 				}
-
 			}
-
 			return true;
 		}
 	}

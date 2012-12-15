@@ -3,7 +3,13 @@
 	class Address extends AppModel
 	{
 	
-		public $hasOne = array('Person');
+		public $hasOne = array
+		(
+			'Person' => array
+				(
+					'dependent' => false
+				)
+		);
 		
 		public $belongsTo = array('City');
 
