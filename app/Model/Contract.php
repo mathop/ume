@@ -3,9 +3,17 @@
 	class Contract extends AppModel
 	{
 	
-		public $belongsTo = array('Person', 'Course', 'Period');
+		public $belongsTo = array
+		(
+			'Person',
+			'Course',
+			'Period'
+		);
 
-		public $hasMany = array('Event');
+		public $hasMany = array
+		(
+			'Event'
+		);
 
 		public $validate = array
 		(			
@@ -22,24 +30,22 @@
 				(
 					'rule' => 'checkOnCreate',
 					'on' => 'create',
-					'message' => 'Erro, verifique todo o formulário' // Mensagem igual ao do método !
+					'message' => 'Erro, verifique todo o formulário.'
 				),
 
 				'rule3' => array
 				(
 					'rule' => 'checkOnUpdate',
 					'on' => 'update',
-					'message' => 'TESTE'
+					'message' => 'Erro, verifique todo o formulário.'
 				),
 
 				'rule4' => array
 				(
-					'rule' => 'validateYear' /*,
-					'message' => 'Data inválida.'*/
+					'rule' => 'validateYear'
 				)
 			),
 
-			//SEMESTRE
 			'semester' => array
 			(
 				'rule1' => array
@@ -55,14 +61,12 @@
 				)
 			),
 
-			//IDENTIFICAÇÃO DO BANCO
 			'bank_num' => array
 			(
 				'rule' => 'notEmpty',
 				'message' => 'Preenchimento obrigatório.'					
 			),
 
-			//Datas
 			'date_of_execution' => array
 			(
 				'rule1' => array
@@ -80,7 +84,6 @@
 
 			'date_of_closing' => array
 			(
-
 				'rule1' => array
 				(
 					'rule' => 'notEmpty',
@@ -92,8 +95,6 @@
 					'rule' => array('date', 'dmy'),
 					'message' => 'Digite uma data válida.'
 				)
-
-					
 			),
 
 			'course_id' => array
@@ -102,8 +103,6 @@
 				'message' => 'Escolha um curso.'
 			),
 
-
-			// Data da rescisão, se estiver vazio okay, se não, deve ser no formato date dmy !!
 			'date_rescinded' => array
 			(
 				'rule1' => array
@@ -124,41 +123,32 @@
 		public function beforeValidate()
 		{
 			
-			// if ( isset($this->data['Contract']['date_of_closing']) or isset($this->data['Contract']['date_of_execution']) )
-			// {
-			// 	$contractDateOfClosing = $this->data['Contract']['date_of_closing'];
-			// 	$contractDateOfExecution = $this->data['Contract']['date_of_execution'];
+			if ( isset($this->data['Contract']['date_of_closing']) or isset($this->data['Contract']['date_of_execution']) )
+			{
+				$contractDateOfClosing = $this->data['Contract']['date_of_closing'];
+				$contractDateOfExecution = $this->data['Contract']['date_of_execution'];
 
-			// 	// Bloco responsável por trocar barras por hífens
-			// 	if ( strlen($contractDateOfExecution) == 8 or strlen($contractDateOfExecution) == 10 )
-			// 	{
-			// 		$this->data['Contract']['date_of_execution'] = str_replace('/', '-', $contractDateOfExecution);
-			// 	}
+				if ( strlen($contractDateOfExecution) == 8 or strlen($contractDateOfExecution) == 10 )
+				{
+					$this->data['Contract']['date_of_execution'] = str_replace('/', '-', $contractDateOfExecution);
+				}
 				
-			// 	// Bloco responsável por trocar barras por hífens
-			// 	if ( strlen($contractDateOfClosing) == 8 or strlen($contractDateOfClosing) )
-			// 	{
-			// 		$this->data['Contract']['date_of_closing'] = str_replace('/', '-', $contractDateOfClosing);
-					
-			// 	}
-				
-
-			// }
+				if ( strlen($contractDateOfClosing) == 8 or strlen($contractDateOfClosing) )
+				{
+					$this->data['Contract']['date_of_closing'] = str_replace('/', '-', $contractDateOfClosing);
+				}
+			}
 
 			return true;
 		}
 
-		// Antes de criar
 		public function checkOnCreate()
 		{
-			// Se o validador ao final deste método continuar valendo 1 retorne TRUE, ou seja, valide !
 			$validador = 1;
-
 
 			// Se no formulário estiver marcado ativo
 			if ( $this->data['Contract']['active'] == 1 )
 			{
-
 				// Conta quantos contratos existem ativos da pessoa
 				$pequisa = $this->find('count', array
 				(
@@ -169,7 +159,6 @@
 					)
 				));
 
-
 				// Se existir algum contrato ativo retorna false,
 				if ( $pequisa > 0 )
 				{
@@ -179,9 +168,7 @@
 					// Existe erro
 					$validador = 0;
 				}
-
 			}
-
 
 			//verificando se existe ano e semestre cadastrado para o cliente
 			$resultado = $this->find('count', array
@@ -192,8 +179,6 @@
 					'Contract.person_id' => $this->data['Contract']['person_id'],
 					'Contract.semester' => $this->data['Contract']['semester'],
 				),
-
-
 
 				'fields' => array
 				(
@@ -217,7 +202,6 @@
 			{
 				return false;
 			}
-
 
 			//Se não retorne true !
 			return true;
@@ -249,7 +233,6 @@
 				$year += 2000;
 			}
 
-
 			if ( $year < 2000 )
 			{
 				// Mostrando o problema na tela !
@@ -272,132 +255,161 @@
 
 		public function checkOnUpdate()
 		{	
-
 			// pega os dados do checkbox do form
-			
 			$selecaoActive = $this->data['Contract']['active'];
 
-			debug($this->data);
-
 			// pesquisa o contrato
-			$pesquisa = $this->read(null, $this->data['Contract']['id']);
-
-			debug($this->data);
+			$pesquisa = $this->find('first', array
+			(
+					'conditions' => array
+					(
+						'Contract.id' => $this->data['Contract']['id']
+					)
+				)
+			);
 
 			// pega a flag do contrato pesquisado
 			$bancoActive = $pesquisa['Contract']['active'];
 
-			// debug($pesquisa['Contract']['active']);
-			// debug($selecaoActive);
 
-			// // se o usuario selecionou o checkbox faça
-			// if ( $selecaoActive )
-			// {
-			// 	// exit;
+			// se o usuario selecionou o checkbox faça
+			if ( $selecaoActive )
+			{
+				// Se o que o usuário ativou o checkbox e no banco está inativo, ou se são diferentes, faça
+				if ( $selecaoActive != $bancoActive )
+				{
+					
+					$argumento2 = array
+					(
+						'conditions' => array
+						(
+							'Contract.person_id' => $this->data['Contract']['person_id'],
+							'Contract.active' => '1'
+						),
 
-			// 	// Se o que o usuário ativou o checkbox e no banco está inativo, ou se são diferentes, faça
-			// 	if ( $selecaoActive != $bancoActive )
-			// 	{
+						'fields' => array
+						(
+							'Contract.person_id', 
+							'Contract.active'
+						)
+					);
 
-			// 		exit;
+					// Conte quantos registros existem ativos da pessoa em questão !
+					$pesquisa = $this->find('count', $argumento2);
 
-			// 		$argumento2 = array
-			// 		(
-			// 			'conditions' => array
-			// 			(
-			// 				'Contract.person_id' => $this->data['Contract']['person_id'],
-			// 				'Contract.active' => '1'
-			// 			),
-
-			// 			'fields' => array
-			// 			(
-			// 				'Contract.person_id', 
-			// 				'Contract.active'
-			// 			)
-			// 		);
-
-
-
-			// 		// Conte quantos registros existem ativos da pessoa em questão !
-			// 		$pesquisa = $this->find('count', $argumento2);
-
-			// 		debug($pesquisa);
-
-
-			// 		// Se for diferente de zero é pq existem contratos, ou seja, pare por ai...
-			// 		if ($pesquisa != 0)
-			// 		{
-			// 			$this->invalidate('active', 'É permitido no máximo um contrato ativo por pessoa, e esse cliente já possui um cadastro ativo.');
-			// 			return false;
-			// 		}
-			// 	}
-			// }
+					// Se for diferente de zero é pq existem contratos, ou seja, pare por ai...
+					if ($pesquisa != 0)
+					{
+						$this->invalidate('active', 'É permitido no máximo um contrato ativo por pessoa, e esse cliente já possui um cadastro ativo.');
+						return false;
+					}
+				}
+			}
 
 			return true;
 		}
 
 		public function beforeSave( ) 
 		{
-			// Se a variável for passada faça isso
+
+			/**
+			  * Irá verificar a existência da variável date_of_execution, 
+			  * caso ela esteja fora do padrão do MySQL irá formatá-la da maneira correta			  *
+			  */
+
 			if ( isset( $this->data['Contract']['date_of_execution'] ) )
 			{
-				// Utilizando uma var com nome menor
+
 				$dt = $this->data['Contract']['date_of_execution'];
 
-				// Se passarem 31/12/12 converta para 31-12-2012
 				if ( strlen( $dt ) == 8 )
 				{
 					$dt = substr($dt, 0,2) . '-' . substr($dt, 3,2) . '-20' . substr($dt, 6,2);
 				}
 
-				// Exemplo: Entrada -> 31-12-2012 ... Saída 2012-12-31
 				$this->data['Contract']['date_of_execution'] = substr($dt, 6, 4).'-'.substr($dt, 3, 2).'-'.substr($dt, 0, 2);
 
 			}
 
-			// Se a variável for passada faça isso
+			/**
+			* Irá verificar a existência da variável date_of_closing,
+			* Se não estiver vazia verifica se o formato está fora do
+			* padrão do MySQL e a formatará da maneira correta.
+			*/
+
 			if ( isset( $this->data['Contract']['date_of_closing'] ) )
 			{
-				// Utilizando uma var com nome menor
+
 				$dt = $this->data['Contract']['date_of_closing'];
 
-				// Se passarem 31/12/12 converta para 31-12-2012
 				if ( strlen( $dt ) == 8 )
 				{
 					$dt = substr($dt, 0, 2) . '-' . substr($dt, 3, 2) . '-20' . substr($dt, 6, 2);
 				}
 
-				// Exemplo: Entrada -> 31-12-2012 ... Saída 2012-12-31
 				$this->data['Contract']['date_of_closing'] = substr($dt, 6, 4) . '-' . substr($dt, 3, 2) . '-' . substr($dt, 0, 2) ;
 
 			}
 
-			// Se a variável for passada faça isso
+			/**
+			* Irá verificar a existência da variável date_rescinded
+			* Caso ela não esteja vazia irá verificar seu formato e se estiver fora do formato do MySQL irá corrigi-lo.
+			*/
+
 			if ( isset($this->data['Contract']['date_rescinded']) )
 			{
-				// Utilizando uma var com nome menor
+
 				$dt = $this->data['Contract']['date_rescinded'];
 				
 				if ( strlen($dt) == 8 )
-				{	// Se passarem 31/12/12 converta para 31-12-2012
+				{	
 					$dt = substr($dt, 0,2) . '-' . substr($dt, 3, 2) . '-20' . substr($dt, 6,4);
 				}
-				// Exemplo: Entrada -> 31-12-2012 ... Saída 2012-12-31
+				
 				if ( strlen($dt) == 10 )
 				{
 					$this->data['Contract']['date_rescinded'] = substr($dt, 6, 4) . '-' . substr($dt, 3, 2) . '-' . substr($dt, 0, 2);
 				}
 
-				if ( empty($this->data['Contract']['date_rescinded']) )
+				/**
+				* Verifica a existência da variável active, 
+				* se continuar inativo (banco e form) retorne OK ...
+				* Se não ... se a data de rescisão estiver vazia e o active marcado retorne false
+				*/
+				
+				if ( isset( $this->data['Contract']['active'] ) )
 				{
-					if ( !$this->data['Contract']['active'] )
-					{
-						$this->invalidate('active', 'Contrato inativo, por favor insira a data da rescisão.');
+					$selecaoActive = $this->data['Contract']['active'];
+			
+					$conditions = array
+					(
+						'conditions' => array
+						(
+							'Contract.person_id' => $this->data['Contract']['person_id'],
+							'Contract.active' => '1'
 
-						return false;
+						)
+					);
+
+					$bancoActive = $this->find('count', $conditions);
+
+					if ( $selecaoActive == 0 and $bancoActive == 0)
+					{
+						return true;
+					}
+
+					if ( empty($this->data['Contract']['date_rescinded']) )
+					{
+						if ( !$this->data['Contract']['active'] )
+						{
+							$this->invalidate('active', 'Contrato inativo, por favor insira a data da rescisão.');
+
+							return false;
+						}
 					}
 				}
 			}
+
 			return true;
 		}
 	}

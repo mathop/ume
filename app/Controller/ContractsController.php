@@ -3,7 +3,7 @@
 	class ContractsController extends AppController
 	{
 
-		private function index( )
+		public function index( )
 		{
 			//
 		}
@@ -111,6 +111,60 @@
 			$this->set('courses', $this->Contract->Course->find('list'));
 
 			self::getPeriods();
+
+		}
+
+		/**
+		* export()
+		*/
+
+		var $components = array('RequestHandler'); 
+
+		function export()
+		{
+			// Origem: http://bakery.cakephp.org/articles/view/4cb22536-75a8-44f1-8373-789cd13e7814/lang:por
+ 	        // Include the RequestHandler, it makes sure the proper layout and views files are used 
+        
+            // Stop Cake from displaying action's execution time 
+            Configure::write('debug', 0); 
+
+            $this->Contract->Person->Behaviors->attach('Containable');
+            $this->Contract->Person->contain(array
+            (
+            	'Contract'
+            ))
+            ;
+
+            // Find fields needed without recursing through associated models 
+            $data = $this->Contract->Person->find
+            ( 
+                'all', 
+                array
+                ( 
+                    'fields' => array()// aqui
+           		)
+           	); 
+
+            // echo '1';
+           	var_dump($data);
+           	exit;
+
+            // Define column headers for CSV file, in same array format as the data itself 
+            $headers = array
+            (
+                'Contract' => array
+                ( 
+                    'id' => 'id', 
+                    'bank_num' => 'banco',
+                    'observation' => 'obs'
+                ) 
+            ); 
+
+            // Add headers to start of data array 
+            array_unshift($data, $headers); 
+
+            // Make the data available to the view (and the resulting CSV file) 
+            $this->set(compact('data')); 
 
 		}
 	}
