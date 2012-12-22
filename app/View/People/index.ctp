@@ -5,7 +5,7 @@
 	echo $this->Form->input('Person.cpf');
 	echo $this->Form->end('Procurar');
 
-	echo '<h1>Listando Pessoas</h1>';
+	echo '<h1>Listando Pessoas.</h1>';
 
 	//pr($people);
 	
