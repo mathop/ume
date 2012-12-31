@@ -1,6 +1,7 @@
 <?php
 	
-	class Person extends AppModel{
+	class Person extends AppModel
+	{
 		
 		public $belongsTo = array('Branch', 'PersonType');
 		
@@ -16,6 +17,14 @@
 		
 		public $validate = array
 		(
+			'image' => array
+			(
+				'rule-1' => array
+				(
+					'rule' => 'imageCheck'
+				)
+			),
+
 			'branch_id' => array
 			(
 				'rule' => 'notEmpty',
@@ -66,7 +75,6 @@
 
 			'cpf' => array
 			(
-				
 				'rule-1' => array
 				(
 					'rule' => 'notEmpty',
@@ -124,6 +132,16 @@
 			)
 		);
 
+		public function beforeValidate()
+		{
+			echo '<p>callback beforeValidate() em ação.</p>';
+
+
+			echo '<p>**$this->data dentro do Model no beforeValidate()**</p>';
+
+			debug($this->data);
+
+		}
 
 		public function validarCpf()
 		{
@@ -206,5 +224,107 @@
 			}
 
 			return true;
+		}
+
+		/**
+		* Esta verificação ocorre sempre quando 
+		* existe a criação de uma nova Pessoa ...
+		*/
+		public function imageCheck()
+		{
+
+			echo '**<p>$this->data dentro na validação do Model imageCheck()</p>';
+			debug($this->data);
+
+			$statusDoUpload = $this->data['Person']['image']['error'];
+			
+			if ( $statusDoUpload == 0 )
+			{
+				$caminhoTemp = $_FILES['data']['tmp_name']['Person']['image'];
+				$nomeDoArquivoDoUsuario = $_FILES['data']['name']['Person']['image'];
+				$caminhoFinal = '';
+				$pastaComCpf = $this->data['Person']['cpf'];
+				$nomeFormatado = $this->data['Person']['name'];
+				$tamanhoDoArquivo = $_FILES['data']['size']['Person']['image'];
+
+				$nomeFormatado = str_replace(' ', '_', $nomeFormatado);
+				$nomeFormatado = str_replace("'", '', $nomeFormatado);
+				$nomeFormatado = strtolower($nomeFormatado);
+
+				$extensaoDoArquivo = explode('.', $nomeDoArquivoDoUsuario);
+				$extensaoDoArquivo = end($extensaoDoArquivo);
+
+				$retireIsto = array ('-', '.', ' ');
+				$pastaComCpf = str_replace($retireIsto, '', $pastaComCpf);
+
+				$dimensoes = getimagesize($caminhoTemp);
+
+				if ( !$dimensoes )
+				{
+					$this->invalidate('image', 'Imagem inválida.');
+					return false;
+				}
+
+				$largura = $dimensoes[0];
+				$altura = $dimensoes[1];
+
+				if ( ($altura > 500) or ($largura > 400) )
+				{
+					$this->invalidate('image', 'A imagem deve ter no máximo 500px de altura e 400px de largura.');
+					return false;
+				}
+
+				if ( $tamanhoDoArquivo > (1 * 1024 * 1024) )
+				{
+					$this->invalidate('image', 'A imagem deve ter no máximo 1 MG de tamanho.');
+					return false;
+				}
+			
+				if ( $extensaoDoArquivo != 'png' and $extensaoDoArquivo != 'jpg' and $extensaoDoArquivo != 'jpeg' and $extensaoDoArquivo != 'gif' )
+				{
+					$this->invalidate('image', 'São permitidos apenas arquivos: png, jpg, jpeg e gif.');
+					return false;
+				}
+
+				$camAbsolutoDaPastaComCPf = WWW_ROOT . 'img' . DS . $pastaComCpf;
+
+				if ( !is_dir( $camAbsolutoDaPastaComCPf ) )
+				{
+					mkdir($camAbsolutoDaPastaComCPf);
+				}
+
+				$caminhoFinal = WWW_ROOT . 'img' . DS . $pastaComCpf . DS . $nomeFormatado . '.' . $extensaoDoArquivo;
+				
+				if ( move_uploaded_file( $caminhoTemp, $caminhoFinal ) )
+				{
+					$this->data['Person']['image'] = $pastaComCpf . DS . $nomeFormatado . '.' . $extensaoDoArquivo;
+				}
+				else
+				{
+					return false;
+				}
+
+				return true;
+			}
+			elseif( $statusDoUpload == 4 ) 
+			{
+				$this->data['Person']['image'] = '';
+				return true;
+			}
+			elseif( $statusDoUpload == 1 )
+			{
+				$this->invalidate('image', 'O arquivo no upload é maior do que o limite do PHP');
+				return false;
+			}
+			elseif( $statusDoUpload == 2 )
+			{
+				$this->invalidate('image', 'O arquivo ultrapassa o limite de tamanho especifiado no HTML');
+				return false;
+			}
+			elseif( $statusDoUpload == 3 )
+			{	
+				$this->invalidate('image', 'O upload do arquivo foi feito parcialmente');
+				return false;
+			}
 		}
 	}

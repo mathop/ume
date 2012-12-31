@@ -1,5 +1,7 @@
 ﻿<?php
 	
+	$empty = empty($this->data['Person']['image']);
+
 	echo $this->Form->create('Person', array('action' => 'edit'));
 	
 		echo $this->Form->input('Person.id');
@@ -23,8 +25,17 @@
 		echo $this->Form->input('Address.neighborhood', array('label' => 'Bairro: '));
 		echo $this->Form->input('Address.city_id', array('options' => array($cities), 'empty' => 'Cidade >>', 'label' => 'Cidade: '));
 	
+		if ( !$empty )
+		{
+			echo $this->Html->link('Alterar imagem', array('action' => 'editImage')) . ' | ' . $this->Html->link('Excluir imagem', array('action' => 'deleteImage', $this->request->data['Person']['id']), array('confirm' => 'Tem certeza que deseja deletar a imagem do usuário? '));
+		}else
+		{
+			echo $this->Html->link('Enviar imagem', array('action' => 'addImage', $this->request->data['Person']['id']));
+
+		}
+
 	echo $this->Form->end('Editar');
 
-	echo $this->Html->link('Voltar', array('action' => 'index'));
+	echo $this->Html->link('Voltar', array('action' => 'index', $this->request->data['Person']['id']));
 
 ?>
