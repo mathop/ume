@@ -126,7 +126,7 @@
  	        // Include the RequestHandler, it makes sure the proper layout and views files are used 
         
             // Stop Cake from displaying action's execution time 
-            Configure::write('debug', 0); 
+            Configure::write('debug', 2); 
 
             $this->Contract->Person->Behaviors->attach('Containable');
             $this->Contract->Person->contain(array
@@ -141,13 +141,12 @@
                 'all', 
                 array
                 ( 
-                    'fields' => array()// aqui
+                    'fields' => array('')
            		)
            	); 
-
-            // echo '1';
-           	var_dump($data);
-           	exit;
+            echo 'aqui';
+            debug($this->request->data);
+            exit();
 
             // Define column headers for CSV file, in same array format as the data itself 
             $headers = array
