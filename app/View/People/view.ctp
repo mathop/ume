@@ -1,7 +1,20 @@
 <?php
 	
-	echo '<table>';
-	
+		echo '<table>';
+		
+		$imagem = $person['Person']['image'];
+
+		if ( empty($imagem) )
+		{
+			echo '<tr><td>' . $this->Html->image('sem-imagem.png', array('alt' => 'Imagem', 'width' => '125', 'height' => '145')) . '</td></tr>';
+		}
+		else
+		{
+			echo '<tr><td>' . $this->Html->image($person['Person']['image'], array('alt' => 'Imagem', 'width' => '125', 'height' => '145')) . '</td></tr>';
+		}
+
+		
+
 		echo '<tr><td><strong>id:</strong> ' . $person['Person']['id'] . '</td></tr>';
 		echo '<tr><td><strong>Nome:</strong> ' . $person['Person']['name'] . '</td></tr>';
 		echo '<tr><td><strong>Telefone:</strong> ' . $person['Person']['phone'] . '</td></tr>';

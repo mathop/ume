@@ -2,7 +2,7 @@
 
 	echo '<h1>Cadastro de Pessoa</h1>';
 
-	echo $this->Form->create('Person', array('action' => 'add'));
+	echo $this->Form->create('Person', array('action' => 'add', 'type' => 'file'));
 		
 		echo $this->Form->input('Person.name', array('label' => 'Nome: '));
 		echo $this->Form->input('Person.phone', array('label' => 'Telefone: '));
@@ -20,6 +20,8 @@
 		echo $this->Form->input('Address.neighborhood', array('label' => 'Bairro: '));
 		
 		echo $this->Form->input('Address.city_id', array('options' => array($cities), 'empty' => 'Cidade >>', 'label' => 'Cidade: '));
+
+		echo $this->Form->input('Person.image', array('label' => 'Imagem: ', 'type' => 'file'));
 	
 	echo $this->Form->end('Cadastrar');
 	
