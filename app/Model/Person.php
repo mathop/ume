@@ -87,7 +87,6 @@
 					'message' => 'CPF já cadastrado.'
 				),
 
-
 				'rule-3' => array
 				(
 					'rule' => 'validarCpf',
@@ -134,26 +133,18 @@
 
 		public function beforeValidate()
 		{
-			echo '<p>callback beforeValidate() em ação.</p>';
-
-
-			echo '<p>**$this->data dentro do Model no beforeValidate()**</p>';
-
-			debug($this->data);
-
+			return true;
 		}
 
 		public function validarCpf()
 		{
 			$cpf = $this->data['Person']['cpf'];
 		
-			// Validando a máscara
 			if ( !preg_match('/^[0-9]{3}\.[0-9]{3}\.[0-9]{3}\-[0-9]{2}$/', $cpf) )
 			{
 				return false;
 			}
 
-			//retirando pontos e traços
 			$cpf = str_replace('.', '', $cpf);
 			$cpf = str_replace('-', '', $cpf);
 
@@ -208,8 +199,7 @@
 		}
 
 		public function beforeSave()
-		{
-			// Data de Nascimento 
+		{ 
 			if ( isset($this->data['Person']['date_of_birth']) )
 			{
 				$dtNascimento = $this->data['Person']['date_of_birth'];
@@ -220,24 +210,19 @@
 				}
 
 				$this->data['Person']['date_of_birth'] = substr($dtNascimento, 6, 4) . '-' . substr($dtNascimento, 3, 2) . '-' . substr($dtNascimento, 0, 2);
-
 			}
 
 			return true;
 		}
 
 		/**
-		* Esta verificação ocorre sempre quando 
-		* existe a criação de uma nova Pessoa ...
+		* Esta verificação ocorre para verificar se o upload é válido 
+		* @return boolean
 		*/
 		public function imageCheck()
 		{
-
-			echo '**<p>$this->data dentro na validação do Model imageCheck()</p>';
-			debug($this->data);
-
 			$statusDoUpload = $this->data['Person']['image']['error'];
-			
+
 			if ( $statusDoUpload == 0 )
 			{
 				$caminhoTemp = $_FILES['data']['tmp_name']['Person']['image'];
@@ -286,18 +271,18 @@
 					return false;
 				}
 
-				$camAbsolutoDaPastaComCPf = WWW_ROOT . 'img' . DS . $pastaComCpf;
+				$camAbsolutoDaPastaComCPf = WWW_ROOT . 'img' . DS . 'uploads' . DS. $pastaComCpf;
 
 				if ( !is_dir( $camAbsolutoDaPastaComCPf ) )
 				{
 					mkdir($camAbsolutoDaPastaComCPf);
 				}
 
-				$caminhoFinal = WWW_ROOT . 'img' . DS . $pastaComCpf . DS . $nomeFormatado . '.' . $extensaoDoArquivo;
+				$caminhoFinal = WWW_ROOT . 'img' . DS  . 'uploads' . DS . $pastaComCpf . DS . $nomeFormatado . '.' . $extensaoDoArquivo;
 				
 				if ( move_uploaded_file( $caminhoTemp, $caminhoFinal ) )
 				{
-					$this->data['Person']['image'] = $pastaComCpf . DS . $nomeFormatado . '.' . $extensaoDoArquivo;
+					$this->data['Person']['image'] = 'uploads' . DS . $pastaComCpf . DS . $nomeFormatado . '.' . $extensaoDoArquivo;
 				}
 				else
 				{

@@ -125,25 +125,31 @@
 
 		public function deleteImage( $id = null)
 		{
-
 			$pesquisa = $this->Person->read(array('fields' => 'image'), $id);
-
 			$camRelativo = $pesquisa['Person']['image'];
 			$camAbsoluto = WWW_ROOT . 'img' . DS . $camRelativo;
 
 			$erros = 0;
 
-			if ( !unlink($camAbsoluto) )
+			if ( unlink($camAbsoluto) ) 
+			{ 
+				// Okay ...
+			}
+			else
 			{
-				$erro = 1;
+				$erros = 1;
 			}
 
-			if ( !$this->Person->saveField('image', null) )
+			if ( $this->Person->saveField('image', null) )
 			{
-				$erro = 1;
+				// Okay ... 
+			}
+			else
+			{
+				$erros = 1;
 			}
 
-			if ($erro != 0)
+			if ($erros != 0)
 			{
 				$this->Session->setFlash('Deleção realizada com sucesso', 'default', array('class' => 'success'), 'flash');
 			}
@@ -157,40 +163,31 @@
 
 		public function addImage( $id = null )
 		{
-
-			$conditions = array
-			(
-				'conditions' => array
-				(
-					'Person.id' => $id 
-				)
-			);
-
-			echo '<p>**$this->Person->find no Controller método AddImage()**<p>';
-			debug($this->Person->find('first', $conditions));
-			echo '<p>**$this->request->data no Controller método AddImage()**</p>';
-			debug($this->request->data);
-
-
-			if ( $this->request->isPut())
+			if ( !$this->request->isGet() )
 			{
+				$this->Person->id = $id;
 
-				echo '<p>é uma requisição do tipo PUT!</p>';
-
-				if ( $this->Person->saveField('image', $this->request->data, array('validate' => true)) )
+				if ( $this->Person->save($this->request->data) )
 				{
-					echo '<p>Person saveField retornou true !</p>';
+					$this->Session->setFlash('Upload realizado com sucesso.', 'default', array('class' => 'success'), 'flash');
+					$this->redirect(array('action' => 'view', $id));
 				}
 				else
 				{
-					echo '<p>Person saveField retornou false</p>';
+					$this->Session->setFlash('Infelizmente não foi possível realizar a ação desejada.');
 				}
-			}else
-			{
-				$this->data = $this->Person->find('first', $conditions);
-				//$this->data = $this->Person->id = $id;
 			}
+			else
+			{
+				$conditions = array
+				(
+					'conditions' => array
+					(
+						'Person.id' => $id 
+					)
+				);
 
+				$this->data = $this->Person->find('first', $conditions);
+			}
 		}
-
 	}

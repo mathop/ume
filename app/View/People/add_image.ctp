@@ -1,4 +1,4 @@
-<?php 
+	<?php 
 
 	echo $this->Form->create('Person', array('controller' => 'people', 'action' => 'addImage', 'type' => 'file'));
 

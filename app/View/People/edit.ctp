@@ -27,7 +27,7 @@
 	
 		if ( !$empty )
 		{
-			echo $this->Html->link('Alterar imagem', array('action' => 'editImage')) . ' | ' . $this->Html->link('Excluir imagem', array('action' => 'deleteImage', $this->request->data['Person']['id']), array('confirm' => 'Tem certeza que deseja deletar a imagem do usuário? '));
+			echo $this->Html->link('Alterar imagem', array('action' => 'addImage', $this->request->data['Person']['id'])) . ' | ' . $this->Html->link('Excluir imagem', array('action' => 'deleteImage', $this->request->data['Person']['id']), array('confirm' => 'Tem certeza que deseja deletar a imagem do usuário? '));
 		}else
 		{
 			echo $this->Html->link('Enviar imagem', array('action' => 'addImage', $this->request->data['Person']['id']));
