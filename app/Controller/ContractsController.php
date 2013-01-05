@@ -248,7 +248,7 @@
 				)
 			); 
 
-            array_unshift($data, $headers); 
+            array_unshift($data, $headers);
 
             $this->set(compact('data')); 
 		}

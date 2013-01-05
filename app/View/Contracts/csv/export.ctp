@@ -28,9 +28,35 @@
             $value = '"' . $value . '"'; 
         } 
 
-        foreach ($row['Contract'] as &$value) 
+        foreach ($row['Contract'] as $key => &$value) 
         { 
-            $value = '"' . $value . '"'; 
+
+            if ( $key == 'data_de_inicio' )
+            {
+                if ( !empty($value) )
+                {
+                    $value = date('d/m/Y', strtotime($value)); 
+                }
+            }
+
+            if ( $key == 'data_de_fim' )
+            {
+                if ( !empty($value) )
+                {
+                    $value = date('d/m/Y', strtotime($value)); 
+                }   
+            }
+
+            if ( $key == 'data_de_rescisao' )
+            {
+                if ( !empty($value) )
+                {
+                    $value = date('d/m/Y', strtotime($value)); 
+                }   
+            }
+
+            $value = '"' . $value . '"';
+
         } 
 
         foreach ($row['EmbarqueIdaPoint'] as &$value) 
