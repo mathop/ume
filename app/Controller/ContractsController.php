@@ -50,8 +50,7 @@
 			$this->set('courses', $this->Contract->Course->find('list'));
 			
 		}
-			
-		
+					
 		public function add( $id = null )
 		{
 		
@@ -113,57 +112,144 @@
 			self::getPeriods();
 
 		}
-
-		/**
-		* export()
-		*/
-
+		
+		// RequestHandler é utilizado no export()
 		var $components = array('RequestHandler'); 
 
 		function export()
 		{
-			// Origem: http://bakery.cakephp.org/articles/view/4cb22536-75a8-44f1-8373-789cd13e7814/lang:por
- 	        // Include the RequestHandler, it makes sure the proper layout and views files are used 
-        
-            // Stop Cake from displaying action's execution time 
-            Configure::write('debug', 2); 
+			// http://bakery.cakephp.org/articles/view/4cb22536-75a8-44f1-8373-789cd13e7814/lang:por
 
-            $this->Contract->Person->Behaviors->attach('Containable');
-            $this->Contract->Person->contain(array
+            Configure::write('debug', 0); 
+
+            $query = 'SELECT
+
+						Person.id id_do_sistema,
+						Person.name nome,
+						Person.phone telefone,
+						Person.mobile celular,
+						Person.customize_payment dia_de_pagamento,
+						Person.email,
+						Person.cpf,
+						Person.rg,
+						Person.date_of_birth data_de_aniversario,
+						Person.observation observacao_da_pessoa,
+						PersonType.name pessoa_tipo,
+						Branch.name filial,
+						Address.street rua,
+						Address.number numero,
+						Address.complement complemento,
+						Address.neighborhood bairro,
+						City.name cidade,
+						Contract.bank_num identificacao_no_banco,
+						Contract.year ano,
+						Contract.semester semestre,
+						Contract.date_of_execution data_de_inicio,
+						Contract.date_of_closing data_de_fim,
+						Contract.date_rescinded data_de_rescisao,
+						Contract.observation observacao_do_contrato,
+						EmbarqueIdaPoint.name embarque_ida,
+						DesembarqueIdaPoint.name desembarque_ida,
+						EmbarqueVoltaPoint.name embarque_volta,
+						DesembarqueVoltaPoint.name desembarque_volta
+
+					FROM 
+
+						contracts Contract
+
+						INNER JOIN people Person ON (Person.id = Contract.person_id)
+						INNER JOIN person_types PersonType ON (PersonType.id = Person.person_type_id)
+						INNER JOIN branches Branch ON (Branch.id = Person.branch_id)
+						INNER JOIN addresses Address ON (Address.person_id = Person.id)
+						INNER JOIN cities City ON (City.id = Address.city_id)
+						INNER JOIN events EmbarqueIdaEvent ON (Contract.id = EmbarqueIdaEvent.contract_id AND EmbarqueIdaEvent.event_type_id = 1)
+						INNER JOIN events DesembarqueIdaEvent ON (Contract.id = DesembarqueIdaEvent.contract_id AND DesembarqueIdaEvent.event_type_id = 2)
+						INNER JOIN events EmbarqueVoltaEvent ON (Contract.id = EmbarqueVoltaEvent.contract_id AND EmbarqueVoltaEvent.event_type_id = 3)
+						INNER JOIN events DesembarqueVoltaEvent ON (Contract.id = DesembarqueVoltaEvent.contract_id AND DesembarqueVoltaEvent.event_type_id = 4)
+						INNER JOIN points EmbarqueIdaPoint ON (EmbarqueIdaPoint.id = EmbarqueIdaEvent.point_id)
+						INNER JOIN points DesembarqueIdaPoint ON (DesembarqueIdaPoint.id = DesembarqueIdaEvent.point_id)
+						INNER JOIN points EmbarqueVoltaPoint ON (EmbarqueVoltaPoint.id = EmbarqueVoltaEvent.point_id)
+						INNER JOIN points DesembarqueVoltaPoint ON (DesembarqueVoltaPoint.id = DesembarqueVoltaEvent.point_id)
+
+					WHERE
+
+						Contract.active = 1';
+
+            $data = $this->Contract->query($query);
+           	
+			$headers = array
             (
-            	'Contract'
-            ))
-            ;
-
-            // Find fields needed without recursing through associated models 
-            $data = $this->Contract->Person->find
-            ( 
-                'all', 
-                array
+                'Person' => array
                 ( 
-                    'fields' => array('')
-           		)
-           	); 
-            echo 'aqui';
-            debug($this->request->data);
-            exit();
+					'id_do_sistema' => 'id_do_sistema',
+					'nome' => 'nome',
+					'telefone' => 'telefone',
+					'celular' => 'celular',
+					'dia_de_pagamento' => 'dia_de_pagamento',
+					'email' => 'email',
+					'cpf' => 'cpf',
+					'rg' => 'rg',
+					'data_de_aniversario' => 'data_de_aniversario',
+					'observacao_da_pessoa' => 'observacao_da_pessoa'
+				),
 
-            // Define column headers for CSV file, in same array format as the data itself 
-            $headers = array
-            (
-                'Contract' => array
-                ( 
-                    'id' => 'id', 
-                    'bank_num' => 'banco',
-                    'observation' => 'obs'
-                ) 
-            ); 
+				'PersonType' => array
+				(
+					'pessoa_tipo' => 'pessoa_tipo'
+				),
 
-            // Add headers to start of data array 
+				'Branch' => array
+				(
+					'filial' => 'filial'
+				),
+
+				'Address' => array
+				(
+					'rua' => 'rua',
+					'numero' => 'numero',
+					'complemento' => 'complemento',
+					'bairro' => 'bairro'
+				),
+
+				'City' => array
+				(
+					'cidade' => 'cidade'
+				),
+
+				'Contract' => array
+				(
+					'identificacao_no_banco' => 'identificacao_no_banco',
+					'ano' => 'ano',
+					'semestre' => 'semestre',
+					'data_de_inicio' => 'data_de_inicio',
+					'data_de_fim' => 'data_de_fim',
+					'data_de_rescisao' => 'data_de_rescisao',
+					'observacao_do_contrato' => 'observacao_do_contrato'
+				),
+
+				'EmbarqueIdaPoint' => array
+				(
+					'embarque_ida' => 'embarque_ida'
+				),
+
+				'DesembarqueIdaPoint' => array
+				(	
+					'desembarque_ida' => 'desebarque_ida'
+				),
+
+				'EmbarqueVoltaPoint' => array
+				(	
+					'embarque_volta' => 'embarque_volta'
+				),
+
+				'DesembarqueVoltaPoint' => array
+				(	
+					'desembarque_volta' => 'desembarque_volta'
+				)
+			); 
+
             array_unshift($data, $headers); 
 
-            // Make the data available to the view (and the resulting CSV file) 
             $this->set(compact('data')); 
-
 		}
 	}
