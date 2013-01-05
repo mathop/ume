@@ -251,8 +251,6 @@
 			return true;
 		}
 
-		
-
 		public function checkOnUpdate()
 		{	
 			// pega os dados do checkbox do form
@@ -270,7 +268,6 @@
 
 			// pega a flag do contrato pesquisado
 			$bancoActive = $pesquisa['Contract']['active'];
-
 
 			// se o usuario selecionou o checkbox faça
 			if ( $selecaoActive )
