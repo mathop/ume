@@ -35,9 +35,11 @@ FROM points;
 
 INSERT INTO points
 VALUES
-(null, 'Ponto um'),
-(null, 'Ponto dois'),
-(null, 'Ponto três');
+(null, 'Zona azul'),
+(null, 'Zona amarela'),
+(null, 'Zona verde'),
+(null, 'Unip - Rangel'),
+(null, 'Unimonte');
 
 
 SELECT *
