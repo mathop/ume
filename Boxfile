@@ -1,7 +1,6 @@
 web1:
   document_root: /app/webroot
   shared_writable_dirs:
-    - app/tmp
     - app/tmp/cache
     - app/tmp/cache/models
     - app/tmp/cache/persistent
@@ -9,6 +8,7 @@ web1:
     - app/tmp/logs
     - app/tmp/sessions
     - app/tmp/tests
+    - app/tmp
   php_extensions:
     - mcrypt
     - mbstring
