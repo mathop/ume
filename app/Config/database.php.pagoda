@@ -20,5 +20,6 @@
             'database' => DB_NAME,
             'prefix' => '',
             'port' => DB_PORT,
+            'encoding' => 'utf8'
         );
     }
