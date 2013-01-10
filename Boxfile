@@ -1,0 +1,26 @@
+web1:
+  document_root: /app/webroot
+  shared_writable_dirs:
+    - app/tmp
+    - app/tmp/cache
+    - app/tmp/cache/models
+    - app/tmp/cache/persistent
+    - app/tmp/cache/views
+    - app/tmp/logs
+    - app/tmp/sessions
+    - app/tmp/tests
+  php_extensions:
+    - mcrypt
+    - mbstring
+    - pdo_mysql
+    - apc
+  after_build:
+    - "mv app/Config/database.php.pagoda app/Config/database.php"
+  after_deploy:
+    - "rm -rf app/tmp/cache/models/*"
+    - "rm -rf app/tmp/cache/persistent/*"
+    - "rm -rf app/tmp/cache/views/*"
+  php_zlib_output_compression: On
+ 
+db1:
+  type: mysql
