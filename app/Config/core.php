@@ -278,3 +278,10 @@ Cache::config('_cake_model_', array(
 	'serialize' => ($engine === 'File'),
 	'duration' => $duration
 ));
+
+/**
+* Conforme tutorial do link:
+* http://help.pagodabox.com/customer/portal/articles/174049-cakephp#switching-caching-engine-to-apc
+*/
+
+Cache::config('default', array('engine' => 'Apc'));

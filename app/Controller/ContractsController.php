@@ -116,7 +116,7 @@
 		// RequestHandler é utilizado no export()
 		var $components = array('RequestHandler'); 
 
-		function export()
+		public function export()
 		{
 			// http://bakery.cakephp.org/articles/view/4cb22536-75a8-44f1-8373-789cd13e7814/lang:por
 
@@ -251,5 +251,10 @@
             array_unshift($data, $headers);
 
             $this->set(compact('data')); 
+		}
+
+		public function export2()
+		{
+			
 		}
 	}
