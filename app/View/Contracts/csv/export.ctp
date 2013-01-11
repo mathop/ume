@@ -33,13 +33,13 @@
 
             if ( $key == 'data_de_inicio' )
             {
-                if ( !empty($value) )
+                if ( !empty($value) and $key != 'data_de_inicio')
                 {
                     $value = date('d/m/Y', strtotime($value)); 
                 }
             }
 
-            if ( $key == 'data_de_fim' )
+            if ( $key == 'data_de_fim' and $key != 'data_de_fim' )
             {
                 if ( !empty($value) )
                 {
@@ -47,7 +47,7 @@
                 }   
             }
 
-            if ( $key == 'data_de_rescisao' )
+            if ( $key == 'data_de_rescisao' and $key != 'data_de_rescisao' )
             {
                 if ( !empty($value) )
                 {

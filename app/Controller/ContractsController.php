@@ -254,7 +254,57 @@
 		}
 
 		public function export2()
-		{
-			
+		{			
+			// http://bakery.cakephp.org/articles/view/4cb22536-75a8-44f1-8373-789cd13e7814/lang:por
+
+			/**
+			* COLOCAR DEBUG 0 DEPOIS
+			*/
+            Configure::write('debug', 0);
+            
+            $query = 'SELECT
+							Person.id id_do_sistema,
+							Person.name nome,
+							Person.cpf,
+							Person.rg,
+							Course.name curso,
+							DesembarqueIdaPoint.name faculdade
+
+						FROM
+							contracts Contract
+
+							INNER JOIN people Person ON (Person.id = Contract.person_id)
+							INNER JOIN events DesembarqueIdaEvent ON (Contract.id = DesembarqueIdaEvent.contract_id AND DesembarqueIdaEvent.event_type_id = 2)
+							INNER JOIN points DesembarqueIdaPoint ON (DesembarqueIdaPoint.id = DesembarqueIdaEvent.point_id)
+							INNER JOIN courses Course ON (Course.id = Contract.course_id)
+						WHERE
+							Contract.active = 1';
+
+            $data = $this->Contract->query( $query );
+            
+            $headers = array
+            (
+            	'Person' => array
+            	(
+            		'id_do_sistema' => 'id_do_sistema',
+            		'nome' => 'nome',
+            		'cpf' => 'cpf',
+            		'rg' => 'rg'
+            	),
+
+            	'Course' => array
+            	(
+            		'curso' => 'curso'
+            	),
+
+            	'DesembarqueIdaPoint' => array
+            	(
+            		'faculdade' => 'faculdade'
+            	)
+            );
+
+            array_unshift($data, $headers);
+
+            $this->set(compact('data')); 
 		}
 	}
