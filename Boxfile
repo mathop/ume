@@ -5,6 +5,7 @@ web1:
     - app/tmp/logs
     - app/tmp/sessions
     - app/tmp/tests
+    - app/webroot/img/uploads
   php_extensions:
     - mcrypt
     - mbstring
