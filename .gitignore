@@ -1,0 +1,4 @@
+# Ignorando arquivos temp
+*.bak
+
+# ...

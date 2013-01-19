@@ -1,5 +1,7 @@
 ﻿<?php
 
+	debug($contratos);
+
 	echo '<h2>Contratos</h2>';
 	echo '<br />';
 	echo '<p>Nome: ' . $contratos['Person']['name'] . '</p>';
@@ -24,8 +26,6 @@
 		echo '<tr><td><strong>Identificação no Banco:</strong> ' . $result['bank_num'] . '</tr></td>';
 		echo '<tr><td><strong>Ano:</strong> ' . $result['year'] . '</tr></td>';
 		echo '<tr><td><strong>Semestre:</strong> ' . $result['semester'] . '</tr></td>';
-		echo '<tr><td><strong>Início:</strong> ' . date('d/m/Y', strtotime($result['date_of_execution']))  . '</tr></td>';
-		echo '<tr><td><strong>Fim:</strong> ' . date('d/m/Y', strtotime($result['date_of_closing'])) . '</tr></td>';
 		echo '<tr><td><strong>Rescisão:</strong> ' . $result['date_rescinded'] . '</tr></td>';
 		echo '<tr><td><strong>Curso</strong>: ' . $result['Course']['name'] . ' </tr></td>';
 		echo '<tr><td><strong>Período</strong>: ' . $result['Period']['name'] . ' </tr></td>';
@@ -62,8 +62,6 @@
 			echo $this->Form->input('Contract.bank_num', array('label' => 'Identificação no banco: '));
 			echo $this->Form->input('Contract.year', array('label' => 'Ano: '));
 			echo $this->Form->input('Contract.semester', array('label' => 'Semestre: '));
-			echo $this->Form->input('Contract.date_of_execution', array('label' => 'Data de início do contrato: ', 'type' => 'text'));
-			echo $this->Form->input('Contract.date_of_closing', array('label' => 'Data de término do contrato: ', 'type' => 'text'));
 			// echo $this->Form->input('Contract.date_rescinded', array('label' => 'Data da rescisão do contrato: ', 'type' => 'text'));
 
 			echo $this->Form->input('Event.0.event_type_id', array('type' => 'hidden', 'value' => 1));

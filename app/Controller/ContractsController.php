@@ -96,8 +96,11 @@
 			else
 			{
 				$this->request->data = $result;
-				$this->request->data('Contract.date_of_execution', date('d/m/Y', strtotime($this->request->data('Contract.date_of_execution'))));
-				$this->request->data('Contract.date_of_closing', date('d/m/Y', strtotime($this->request->data('Contract.date_of_closing'))));
+				
+				// Solução a baixo não necessária ... porém muito útil ...
+
+				// $this->request->data('Contract.date_of_execution', date('d/m/Y', strtotime($this->request->data('Contract.date_of_execution'))));
+				// $this->request->data('Contract.date_of_closing', date('d/m/Y', strtotime($this->request->data('Contract.date_of_closing'))));
 			}
 
 			//Disponibilza o ID da Pessoa para popular o campo person_id

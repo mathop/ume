@@ -28,4 +28,25 @@
 		{
 			$this->set('resultado', $this->Course->find('all'));
 		}
+	
+		public function edit( $id = null )
+		{
+			$isGet = $this->request->isGet();
+			$empty = empty($this->request->data);
+
+			if ( !$isGet and !$empty )
+			{
+				if ($this->Course->save($this->request->data))
+				{
+					$this->Session->setFlash('Atualização realizada com sucesso!');
+					$this->redirect(array('action' => 'view'));
+				}
+				else
+				{
+					$this->Session->setFlash('Não foi possível atualizar.');
+				}
+			}
+
+			$this->set('data', $this->Course->read(null, $id));
+		}
 	}

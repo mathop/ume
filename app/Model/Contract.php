@@ -20,27 +20,27 @@
 
 			'year' => array
 			(
-				'rule1' => array
+				array
 				(
 					'rule' => 'notEmpty',
 					'message' => 'Preenchimento obrigatório.'														
 				),
 
-				'rule2' => array
+				array
 				(
 					'rule' => 'checkOnCreate',
 					'on' => 'create',
 					'message' => 'Erro, verifique todo o formulário.'
 				),
 
-				'rule3' => array
+				array
 				(
 					'rule' => 'checkOnUpdate',
 					'on' => 'update',
 					'message' => 'Erro, verifique todo o formulário.'
 				),
 
-				'rule4' => array
+				array
 				(
 					'rule' => 'validateYear'
 				)
@@ -48,13 +48,13 @@
 
 			'semester' => array
 			(
-				'rule1' => array
+				array
 				(
 					'rule' => 'notEmpty',
 					'message' => 'Preenchimento obrigatório.'
 				),
 
-				'rule2' => array
+				array
 				(
 					'rule' => 'validateSemester',
 					'message' => 'Semestre inválido.'
@@ -67,36 +67,6 @@
 				'message' => 'Preenchimento obrigatório.'					
 			),
 
-			'date_of_execution' => array
-			(
-				'rule1' => array
-				(
-					'rule' => 'notEmpty',
-					'message' => 'Digite uma data.'
-				),
-
-				'rule2' => array
-				(
-					'rule' => array('date', 'dmy'),
-					'message' => 'Digite uma data válida.'
-				)
-			),
-
-			'date_of_closing' => array
-			(
-				'rule1' => array
-				(
-					'rule' => 'notEmpty',
-					'message' => 'Digite uma data.'
-				),
-
-				'rule2' => array
-				(
-					'rule' => array('date', 'dmy'),
-					'message' => 'Digite uma data válida.'
-				)
-			),
-
 			'course_id' => array
 			(
 				'rule' => 'notEmpty',
@@ -104,13 +74,10 @@
 			),
 
 			'date_rescinded' => array
-			(
-				'rule1' => array
-				(
-					'rule' => array('date', 'dmy'),
-					'allowEmpty' => true,
-					'message' => 'Digite uma data válida.'
-				)
+			(	
+				'rule' => array('date', 'dmy'),
+				'allowEmpty' => true,
+				'message' => 'Digite uma data válida.'
 			),
 
 			'period_id' => array
@@ -120,28 +87,6 @@
 			),
 		);	
 	
-		public function beforeValidate()
-		{
-			
-			if ( isset($this->data['Contract']['date_of_closing']) or isset($this->data['Contract']['date_of_execution']) )
-			{
-				$contractDateOfClosing = $this->data['Contract']['date_of_closing'];
-				$contractDateOfExecution = $this->data['Contract']['date_of_execution'];
-
-				if ( strlen($contractDateOfExecution) == 8 or strlen($contractDateOfExecution) == 10 )
-				{
-					$this->data['Contract']['date_of_execution'] = str_replace('/', '-', $contractDateOfExecution);
-				}
-				
-				if ( strlen($contractDateOfClosing) == 8 or strlen($contractDateOfClosing) )
-				{
-					$this->data['Contract']['date_of_closing'] = str_replace('/', '-', $contractDateOfClosing);
-				}
-			}
-
-			return true;
-		}
-
 		public function checkOnCreate()
 		{
 			$validador = 1;
@@ -308,45 +253,6 @@
 
 		public function beforeSave( ) 
 		{
-
-			/**
-			  * Irá verificar a existência da variável date_of_execution, 
-			  * caso ela esteja fora do padrão do MySQL irá formatá-la da maneira correta			  *
-			  */
-
-			if ( isset( $this->data['Contract']['date_of_execution'] ) )
-			{
-
-				$dt = $this->data['Contract']['date_of_execution'];
-
-				if ( strlen( $dt ) == 8 )
-				{
-					$dt = substr($dt, 0,2) . '-' . substr($dt, 3,2) . '-20' . substr($dt, 6,2);
-				}
-
-				$this->data['Contract']['date_of_execution'] = substr($dt, 6, 4).'-'.substr($dt, 3, 2).'-'.substr($dt, 0, 2);
-
-			}
-
-			/**
-			* Irá verificar a existência da variável date_of_closing,
-			* Se não estiver vazia verifica se o formato está fora do
-			* padrão do MySQL e a formatará da maneira correta.
-			*/
-
-			if ( isset( $this->data['Contract']['date_of_closing'] ) )
-			{
-
-				$dt = $this->data['Contract']['date_of_closing'];
-
-				if ( strlen( $dt ) == 8 )
-				{
-					$dt = substr($dt, 0, 2) . '-' . substr($dt, 3, 2) . '-20' . substr($dt, 6, 2);
-				}
-
-				$this->data['Contract']['date_of_closing'] = substr($dt, 6, 4) . '-' . substr($dt, 3, 2) . '-' . substr($dt, 0, 2) ;
-
-			}
 
 			/**
 			* Irá verificar a existência da variável date_rescinded

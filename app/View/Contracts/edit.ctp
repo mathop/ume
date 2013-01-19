@@ -12,18 +12,6 @@
 			echo $this->Form->input('Contract.bank_num', array('label' => 'Identificação no banco: '));
 			echo $this->Form->input('Contract.year', array('label' => 'Ano: '));
 			echo $this->Form->input('Contract.semester', array('label' => 'Semestre: '));
-			echo $this->Form->input('Contract.date_of_execution', array('label' => 'Data de início do contrato: ', 'type' => 'text'));
-			echo $this->Form->input('Contract.date_of_closing', array('label' => 'Data de término do contrato: ', 'type' => 'text'));
-
-
-// 			debug('-------------');
-// 			debug(strtotime('20/12/2012'));
-// 			debug(strtotime('20-12-2012'));
-// debug('-------------');
-
-// 			debug(strtotime($this->data['Contract']['date_of_execution']));
-// 			debug(strtotime($this->data['Contract']['date_of_closing']));
-// 			debug(strtotime('31-12-2012'));
 
 			if ( empty($this->data['Contract']['date_rescinded']) )
 			{

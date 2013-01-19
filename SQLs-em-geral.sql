@@ -1,21 +1,29 @@
--- DML do SCHEMA `ume`
+-- Este arquivo possui SQL iguais ao arquivo SQL-ume.sql porém com selects a mais ...
 
--- person_types
+SELECT *
+FROM person_types;
 
 INSERT INTO person_types 
 VALUES (null, 'Usuário');
 
--- branches
+SELECT *
+FROM cities;
+
+SELECT *
+FROM branches;
+
+DESCRIBE `branches`;
 
 INSERT INTO branches
 VALUES (null, 'Ume - Itanhaém');
 
--- cities
 
 INSERT INTO cities
 VALUES (null, 'Itanhaém');
 
--- event_types
+
+SELECT *
+FROM event_types;
 
 INSERT INTO event_types
 VALUES 
@@ -24,7 +32,8 @@ VALUES
 (null, 'Embarque Volta'),
 (null, 'Desembarque Volta');
 
--- points
+SELECT *
+FROM points;
 
 INSERT INTO points
 VALUES
@@ -34,16 +43,11 @@ VALUES
 (null, 'Unip - Rangel'),
 (null, 'Unimonte');
 
--- periods
+
+SELECT *
+FROM periods;
+
 
 INSERT INTO periods 
 VALUES (null, 'Manhã'), (null, 'Tarde'), (null, 'Noite');
 
--- courses
-
-INSERT INTO courses
-VALUES 
-(null, 'Administração'),
-(null, 'Análise e desenvolvimento de sistemas'),
-(null, 'Pedagogia'),
-(null, 'Petróleo e gás');

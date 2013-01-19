@@ -6,7 +6,7 @@
 	
 	foreach ( $resultado as $resultado ) {
 
-		echo '<li>' . $resultado['Course']['name'] . '</li>';
+		echo '<li>' . $resultado['Course']['name'] . ' | ' . $this->Html->link('Alterar nome', array('action' => 'edit', $resultado['Course']['id'])) . '</li>';
 	}
 
 	echo '</ul>';

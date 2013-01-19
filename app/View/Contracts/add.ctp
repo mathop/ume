@@ -12,7 +12,7 @@
 			echo $this->Form->input('Contract.semester', array('label' => 'Semestre: '));
 			echo $this->Form->input('Contract.date_of_execution', array('label' => 'Data de início do contrato: ', 'type' => 'text'));
 			echo $this->Form->input('Contract.date_of_closing', array('label' => 'Data de término do contrato: ', 'type' => 'text'));
-			// echo $this->Form->input('Contract.date_rescinded', array('label' => 'Data da rescisão do contrato: ', 'type' => 'text'));
+			
 
 			echo $this->Form->input('Event.0.event_type_id', array('type' => 'hidden', 'value' => 1));
 			echo $this->Form->input('Event.0.point_id', array('label' => 'Embarque Ida:', 'options' => $points, 'empty' => 'Local >>'));
