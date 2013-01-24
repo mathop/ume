@@ -310,4 +310,59 @@
 
             $this->set(compact('data')); 
 		}
+
+		public function export3()
+		{
+			// http://bakery.cakephp.org/articles/view/4cb22536-75a8-44f1-8373-789cd13e7814/lang:por
+
+            Configure::write('debug', 0);
+            
+            $query = 'SELECT
+						
+						Contract.bank_num id_do_banco,
+						Person.name nome,
+						Person.rg,
+						Person.date_of_birth data_de_nascimento,
+						Point.name faculdade,
+						Course.name curso						
+
+					FROM 
+						contracts Contract
+						
+						INNER JOIN people Person ON (Person.id = Contract.person_id)
+						INNER JOIN events Event ON (Contract.id = Event.contract_id AND Event.event_type_id = 2)
+						INNER JOIN points Point ON (Point.id = Event.point_id)
+						INNER JOIN courses Course ON (Course.id = Contract.course_id)';
+
+            $data = $this->Contract->query($query);
+
+            $headers = array
+            (
+                'Contract' => array
+                (
+                    'id_do_banco' => 'id_do_banco'
+                ),
+
+                'Person' => array
+                (
+                	'nome' => 'nome',
+                	'rg' => 'rg',
+                	'data_de_nascimento' => 'data_de_nascimento'
+                ),
+
+                'Point' => array
+                (
+                	'faculdade' => 'faculdade'
+                ),
+
+                'Course' => array
+                (
+                	'curso' => 'curso'
+                )
+            );
+
+            array_unshift($data, $headers);
+            
+            $this->set(compact('data')); 
+		}
 	}
