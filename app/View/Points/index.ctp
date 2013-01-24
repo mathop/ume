@@ -1,3 +1,4 @@
+<p><?php echo $this->Html->link('Cadastrar novo ponto', array('controller' => 'points', 'action' => 'add')) ?></p>
 <table>
 	<thead>
 		<tr>

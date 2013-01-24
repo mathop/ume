@@ -32,4 +32,29 @@
 				}
 			}
 		}
+
+		public function add()
+		{
+			if ( $this->request->isPost() )
+			{	
+				$dados = &$this->request->data;
+
+				$existe = isset($dados['Point']['name']);
+
+				$empty = empty($dados['Point']['name']);
+
+				if ( $existe and !$empty )
+				{
+					if ( $this->Point->save($dados) )
+					{
+						$this->Session->setFlash('Cadastro realizado com sucesso.', 'default', array('class' => 'success'), 'flash');
+						$this->data = array();
+					}
+					else
+					{
+						$this->Session->setFlash('Não foi possível cadastrar.');
+					}
+				}
+			}
+		}
 	}
