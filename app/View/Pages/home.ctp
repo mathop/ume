@@ -7,5 +7,6 @@
 	echo '<p>' . $this->Html->link('Cursos', array('controller' => 'courses', 'action' => 'index')) . '</p>';
 	echo '<p>' . $this->Html->link('Evento Tipos', array('controller' => 'event_types', 'action' => 'index')) . '</p>';
 	echo '<p>' . $this->Html->link('Relatórios', array('controller' => 'contracts', 'action' => 'index')) . '</p>';
+	echo '<p>' . $this->Html->link('Pontos', array('controller' => 'points', 'action' => 'index')) . '</p>';
 
 ?>
