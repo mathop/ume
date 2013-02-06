@@ -32,7 +32,7 @@
 		
 		echo $this->Html->css('cake.generic');
 		
-		echo $this->Html->script('jquery'); // <script type="text/javascript" src="/ume/js/jquery.js">
+		// echo $this->Html->script('');
 
 		echo $this->fetch('meta');
 		echo $this->fetch('css');
