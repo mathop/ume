@@ -26,7 +26,7 @@ $(document).ready(function(){
 	$('#cpf').mask("999.999.999-99");
 
 
-$('#rg').focusout(function(){
+	$('#rg').focusout(function(){
 		
 		var rg, element;
 		
@@ -35,24 +35,25 @@ $('#rg').focusout(function(){
 		element.unmask();
 
 		rg = element.val().replace(/-/g, '');
-		rg = rg.replace(/./g, '');
+		rg = rg.replace(/\./g, '');
 		rg = rg.replace(/_/g, '');
+
+		// Devem ter 3 asteríscos
+		// Devem deixar 2 caracteres depois da ?
 		
 		if (rg.length == 8)
 		{
-			element.mask("*.999.999-*?**");
+			element.mask("99.999.9*?-**");
 		}
 		else if (rg.length == 7)
 		{
-			element.mask("999.999-?***");
+			element.mask("999.999-*?**");
 		}
 		else
-		{
-			element.mask("**.999.9**-*");
+		{ 
+			element.mask("99.999.9*?*-*");
 		}
 
 	}).trigger('focusout');
-
-	$('#rg').mask("**.999.999-*");
 
 });

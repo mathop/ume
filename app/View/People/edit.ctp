@@ -1,5 +1,10 @@
 ﻿<?php
 	
+	$this->Html->script('jquery-1.9.0.min.js', array('inline' => false));
+	$this->Html->script('jquery.maskedinput.v1.3.1.js', array('inline' => false));
+	$this->Html->script('view-people-add-script.js', array('inline' => false));
+	
+
 	$empty = empty($this->data['Person']['image']);
 
 	echo $this->Form->create('Person', array('action' => 'edit'));
@@ -10,7 +15,7 @@
 		echo $this->Form->input('Person.mobile', array('label' => 'Celular: '));
 		echo $this->Form->input('Person.email', array('label' => 'Email: '));
 		echo $this->Form->input('Person.cpf', array('label' => 'CPF: '));
-		echo $this->Form->input('Person.rg', array('label' => 'RG: '));
+		echo $this->Form->input('Person.rg', array('label' => 'RG: ', 'id' => 'rg'));
 		echo $this->Form->input('Person.date_of_birth', array('label' => 'Data de nascimento: ', 'value' => date('d/m/Y',
 			strtotime($this->data['Person']['date_of_birth']))));
 

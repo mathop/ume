@@ -69,7 +69,11 @@
 					)
 				);
 
-				$this->data = $this->Person->read(null, $id);
+				$this->request->data = $this->Person->read(null, $id);
+
+				$rg = $this->request->data['Person']['rg'];
+
+				$this->request->data('Person.rg', str_replace(array('-', '_', ' ', '.'), '', $rg));
 			}			
 		}
 
