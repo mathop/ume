@@ -9,19 +9,19 @@
 		(
 			'name' => array
 			(	//VAZIO?
-				'rule1' => array
+				'notEmpty' => array
 				(
 					'rule' => 'notEmpty',
 					'message' => 'Preenchimento obrigatório.'
 				),
 				//É ÚNICO?
-				'rule2' => array
+				'isUnique' => array
 				(
 					'rule' => 'isUnique',
 					'message' => 'Curso já cadastrado.'
 				),
 				//MÍNIMO DE CARACTERES
-				'rule3' => array
+				'minLength' => array
 				(
 					'rule' => array('minLength', '3'),
 					'message' => 'O cadastro só será efetivado se houver no mínimo 3 caracteres'

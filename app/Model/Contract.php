@@ -2,7 +2,7 @@
 
 	class Contract extends AppModel
 	{
-	
+
 		public $belongsTo = array
 		(
 			'Person',
@@ -16,31 +16,31 @@
 		);
 
 		public $validate = array
-		(			
+		(
 
 			'year' => array
 			(
-				array
+				'notEmpty' => array
 				(
 					'rule' => 'notEmpty',
-					'message' => 'Preenchimento obrigatório.'														
+					'message' => 'Preenchimento obrigatório.'
 				),
 
-				array
+				'checkOnCreate' => array
 				(
 					'rule' => 'checkOnCreate',
 					'on' => 'create',
 					'message' => 'Erro, verifique todo o formulário.'
 				),
 
-				array
+				'checkOnUpdate' => array
 				(
 					'rule' => 'checkOnUpdate',
 					'on' => 'update',
 					'message' => 'Erro, verifique todo o formulário.'
 				),
 
-				array
+				'validateYear' => array
 				(
 					'rule' => 'validateYear'
 				)
@@ -48,13 +48,13 @@
 
 			'semester' => array
 			(
-				array
+				'notEmpty' => array
 				(
 					'rule' => 'notEmpty',
 					'message' => 'Preenchimento obrigatório.'
 				),
 
-				array
+				'validateSemester' => array
 				(
 					'rule' => 'validateSemester',
 					'message' => 'Semestre inválido.'
@@ -63,30 +63,42 @@
 
 			'bank_num' => array
 			(
-				'rule' => 'notEmpty',
-				'message' => 'Preenchimento obrigatório.'					
+				'notEmpty' => array
+				(
+					'rule' => 'notEmpty',
+					'message' => 'Preenchimento obrigatório.'
+				)
 			),
 
 			'course_id' => array
 			(
-				'rule' => 'notEmpty',
-				'message' => 'Escolha um curso.'
+				'notEmpty' => array
+				(
+					'rule' => 'notEmpty',
+					'message' => 'Escolha um curso.'
+				)
 			),
 
 			'date_rescinded' => array
-			(	
-				'rule' => array('date', 'dmy'),
-				'allowEmpty' => true,
-				'message' => 'Digite uma data válida.'
+			(
+				'date' => array
+				(
+					'rule' => array('date', 'dmy'),
+					'allowEmpty' => true,
+					'message' => 'Digite uma data válida.'
+				)
 			),
 
 			'period_id' => array
 			(
-				'rule' => 'notEmpty',
-				'message' => 'Escolha um período.'
-			),
-		);	
-	
+				'notEmpty' => array
+				(
+					'rule' => 'notEmpty',
+					'message' => 'Escolha um período.'
+				)
+			)
+		);
+
 		public function checkOnCreate()
 		{
 			$validador = 1;
@@ -109,7 +121,7 @@
 				{
 					// Avisa o usuário do erro
 					$this->invalidate('active', 'Já existem contratos ativos deste cliente.');
-					
+
 					// Existe erro
 					$validador = 0;
 				}
@@ -137,7 +149,7 @@
 				//Avisando o usuário sobre os erros
 				//$this->invalidate('year', 'Já existe cadastro para o ano e semestre informado.');
 				$this->invalidate('semester', 'Já existe cadastro para o ano e semestre informado.'); //igual ao rule2
-				
+
 				//Existe erro
 				$validador = 0;
 			}
@@ -182,7 +194,7 @@
 			{
 				// Mostrando o problema na tela !
 				$this->invalidate('year', 'São aceitos apenas anos maiores ou iguais a 2 mil.');
-				
+
 				// 0 = Inválido
 				$validador = 0;
 			}
@@ -192,12 +204,12 @@
 			{
 				return false;
 			}
-			
+
 			return true;
 		}
 
 		public function checkOnUpdate()
-		{	
+		{
 			// pega os dados do checkbox do form
 			$selecaoActive = $this->data['Contract']['active'];
 
@@ -220,7 +232,7 @@
 				// Se o que o usuário ativou o checkbox e no banco está inativo, ou se são diferentes, faça
 				if ( $selecaoActive != $bancoActive )
 				{
-					
+
 					$argumento2 = array
 					(
 						'conditions' => array
@@ -231,7 +243,7 @@
 
 						'fields' => array
 						(
-							'Contract.person_id', 
+							'Contract.person_id',
 							'Contract.active'
 						)
 					);
@@ -251,7 +263,7 @@
 			return true;
 		}
 
-		public function beforeSave( ) 
+		public function beforeSave( )
 		{
 
 			/**
@@ -263,27 +275,27 @@
 			{
 
 				$dt = $this->data['Contract']['date_rescinded'];
-				
+
 				if ( strlen($dt) == 8 )
-				{	
+				{
 					$dt = substr($dt, 0,2) . '-' . substr($dt, 3, 2) . '-20' . substr($dt, 6,4);
 				}
-				
+
 				if ( strlen($dt) == 10 )
 				{
 					$this->data['Contract']['date_rescinded'] = substr($dt, 6, 4) . '-' . substr($dt, 3, 2) . '-' . substr($dt, 0, 2);
 				}
 
 				/**
-				* Verifica a existência da variável active, 
+				* Verifica a existência da variável active,
 				* se continuar inativo (banco e form) retorne OK ...
 				* Se não ... se a data de rescisão estiver vazia e o active marcado retorne false
 				*/
-				
+
 				if ( isset( $this->data['Contract']['active'] ) )
 				{
 					$selecaoActive = $this->data['Contract']['active'];
-			
+
 					$conditions = array
 					(
 						'conditions' => array

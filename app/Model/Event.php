@@ -8,9 +8,11 @@
 		(
 			'point_id' => array
 			(
-				'rule' => 'notEmpty',
-				'message' => 'Escolha um ponto.'
+				'notEmpty' => array
+				(
+					'rule' => 'notEmpty',
+					'message' => 'Escolha um ponto.'
+				)
 			)
 		);
-
 	}

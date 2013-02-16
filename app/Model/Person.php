@@ -1,10 +1,10 @@
 <?php
-	
+
 	class Person extends AppModel
 	{
-		
+
 		public $belongsTo = array('Branch', 'PersonType');
-		
+
 		public $hasOne = array
 		(
 			'Address' => array
@@ -12,14 +12,14 @@
 				'dependent' => true
 			)
 		);
-		
+
 		public $hasMany = array('Contract');
-		
+
 		public $validate = array
 		(
 			'image' => array
 			(
-				'rule-1' => array
+				'imageCheck' => array
 				(
 					'rule' => 'imageCheck'
 				)
@@ -27,82 +27,94 @@
 
 			'branch_id' => array
 			(
-				'rule' => 'notEmpty',
-				'message' => 'Escolha uma filial.'
+				'notEmpty' => array
+				(
+					'rule' => 'notEmpty',
+					'message' => 'Escolha uma filial.'
+				)
 			),
-		
+
 			'name' => array
 			(
-				'rule-1' => array
+				'notEmpty' => array
 				(
 					'rule' => 'notEmpty',
 					'message' => 'Digite o nome.'
 				),
-				
-				'rule-2' =>  array
+
+				'isUnique' =>  array
 				(
 					'rule' => 'isUnique',
 					'message' => 'Já cadastrado.'
 				),
 
-				'rule-3' => array
+				'minLength' => array
 				(
 					'rule' => array('minLength', 4),
 					'message' => 'Nome muito curto.'
 				)
 			),
-				
+
 			'phone' => array
 			(
-				'rule' => '/^\([0-9]{2}\) [0-9]{4}\-[0-9]{4}$/',
-				'allowEmpty' => true,
-				'message' => 'Telefone inválido, exemplo de telefone válido: (11) 1234-1234.'
+				'valid' => array
+				(
+					'rule' => '/^\([0-9]{2}\) [0-9]{4}\-[0-9]{4}$/',
+					'allowEmpty' => true,
+					'message' => 'Telefone inválido, exemplo de telefone válido: (11) 1234-1234.'
+				)
 			),
 
 			'mobile' => array
 			(
-				'rule' => '/^\([0-9]{2}\) [0-9]{4,5}\-[0-9]{4}$/',
-				'allowEmpty' => true,
-				'message' => 'Celular inválido, exemplo de celular válido: (11) 97123-1234.'
+				'valid' => array
+				(
+					'rule' => '/^\([0-9]{2}\) [0-9]{4,5}\-[0-9]{4}$/',
+					'allowEmpty' => true,
+					'message' => 'Celular inválido, exemplo de celular válido: (11) 97123-1234.'
+				)
 			),
 
 			'email' => array
 			(
-				'rule' => 'email',
-				'allowEmpty' => true,
-				'message' => 'Digite um e-mail válido.'
+				'email' => array
+				(
+					'rule' => 'email',
+					'allowEmpty' => true,
+					'message' => 'Digite um e-mail válido.'
+				)
 			),
 
 			'cpf' => array
 			(
-				'rule-1' => array
+				'notEmpty' => array
 				(
 					'rule' => 'notEmpty',
 					'message' => 'Digite o CPF.'
 				),
 
-				'rule-2' => array
+				'isUnique' => array
 				(
 					'rule' => 'isUnique',
 					'message' => 'CPF já cadastrado.'
 				),
 
-				'rule-3' => array
+				'validarCpf' => array
 				(
 					'rule' => 'validarCpf',
-					'message' => 'CPF Inválido.'					
+					'message' => 'CPF Inválido.'
 				)
 			),
 
 			'rg' => array
 			(
-				'rule-1' => array
+				'notEmpty' => array
 				(
 					'rule' => 'notEmpty',
 					'message' => 'Digite o RG.'
 				),
 
-				'rule-2' => array
+				'between' => array
 				(
 					'rule' => array('between', 4, 15),
 					'message' => 'Digite um RG válido.'
@@ -111,19 +123,19 @@
 
 			'date_of_birth' => array
 			(
-				'rule-1' => array
+				'notEmpty' => array
 				(
 					'rule' => 'notEmpty',
 					'message' => 'Digite a data de nascimento.'
 				),
 
-				'rule-2' => array
+				'date' => array
 				(
 					'rule' => array('date', 'dmy'),
 					'message' => 'Data inválida.'
 				),
 
-				'rule-3' => array
+				'minLength' => array
 				(
 					'rule' => array('minLength', 10),
 					'message' => 'Data inválida. Exemplo válido: DD/MM/AAAA.'
@@ -139,7 +151,7 @@
 		public function validarCpf()
 		{
 			$cpf = $this->data['Person']['cpf'];
-		
+
 			if ( !preg_match('/^[0-9]{3}\.[0-9]{3}\.[0-9]{3}\-[0-9]{2}$/', $cpf) )
 			{
 				return false;
@@ -173,7 +185,7 @@
 			{
 				$verificadorUm = 11 - $restoUm;
 			}
-			
+
 			// Calculando código verificador 2
 			$soma2 = $zero*11 + $um*10 + $dois*9 + $tres*8 + $quatro*7 + $cinco*6 + $seis*5 + $sete*4 + $oito*3 + $verificadorUm*2;
 
@@ -186,9 +198,9 @@
 			else
 			{
 				$verificadorDois = 11 - $restoDois;
-			}			
+			}
 
-			$cpfCorreto = $zero . $um . $dois . $tres . $quatro . $cinco . $seis . $sete . $oito . $verificadorUm . $verificadorDois;			
+			$cpfCorreto = $zero . $um . $dois . $tres . $quatro . $cinco . $seis . $sete . $oito . $verificadorUm . $verificadorDois;
 
 			if ( $cpfCorreto != $cpf )
 			{
@@ -199,14 +211,14 @@
 		}
 
 		public function beforeSave()
-		{ 
+		{
 			if ( isset($this->data['Person']['date_of_birth']) )
 			{
 				$dtNascimento = $this->data['Person']['date_of_birth'];
 
 				if ( strlen( $dtNascimento ) != 10 )
 				{
-					return false;	
+					return false;
 				}
 
 				$this->data['Person']['date_of_birth'] = substr($dtNascimento, 6, 4) . '-' . substr($dtNascimento, 3, 2) . '-' . substr($dtNascimento, 0, 2);
@@ -216,7 +228,7 @@
 		}
 
 		/**
-		* Esta verificação ocorre para verificar se o upload é válido 
+		* Esta verificação ocorre para verificar se o upload é válido
 		* @return boolean
 		*/
 		public function imageCheck()
@@ -264,7 +276,7 @@
 					$this->invalidate('image', 'A imagem deve ter no máximo 1 MG de tamanho.');
 					return false;
 				}
-			
+
 				if ( $extensaoDoArquivo != 'png' and $extensaoDoArquivo != 'jpg' and $extensaoDoArquivo != 'jpeg' and $extensaoDoArquivo != 'gif' )
 				{
 					$this->invalidate('image', 'São permitidos apenas arquivos: png, jpg, jpeg e gif.');
@@ -279,7 +291,7 @@
 				}
 
 				$caminhoFinal = WWW_ROOT . 'img' . DS  . 'uploads' . DS . $pastaComCpf . DS . $nomeFormatado . '.' . $extensaoDoArquivo;
-				
+
 				if ( move_uploaded_file( $caminhoTemp, $caminhoFinal ) )
 				{
 					$this->data['Person']['image'] = 'uploads' . DS . $pastaComCpf . DS . $nomeFormatado . '.' . $extensaoDoArquivo;
@@ -291,7 +303,7 @@
 
 				return true;
 			}
-			elseif( $statusDoUpload == 4 ) 
+			elseif( $statusDoUpload == 4 )
 			{
 				$this->data['Person']['image'] = '';
 				return true;
@@ -307,7 +319,7 @@
 				return false;
 			}
 			elseif( $statusDoUpload == 3 )
-			{	
+			{
 				$this->invalidate('image', 'O upload do arquivo foi feito parcialmente');
 				return false;
 			}
